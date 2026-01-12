@@ -19,13 +19,33 @@ const Spike = ({ position, delay = 0 }) => {
 
   return (
     <group ref={groupRef} position={[position[0], -0.5, position[2]]}>
-      <mesh castShadow>
-        <coneGeometry args={[0.15, 1.5, 4]} />
-        <meshStandardMaterial color="#4a4a4a" metalness={0.8} roughness={0.2} />
+      <mesh castShadow position={[0, 0.1, 0]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.2, 8]} />
+        <meshStandardMaterial
+          color="#555555"
+          metalness={0.7}
+          roughness={0.3}
+        />
       </mesh>
-      <mesh castShadow position={[0, 0.75, 0]}>
-        <coneGeometry args={[0.05, 0.3, 4]} />
-        <meshStandardMaterial color="#222222" metalness={0.9} roughness={0.1} />
+      <mesh castShadow position={[0, 0.6, 0]}>
+        <coneGeometry args={[0.12, 1.2, 8]} />
+        <meshStandardMaterial
+          color="#666666"
+          metalness={0.9}
+          roughness={0.2}
+          emissive="#ff3030"
+          emissiveIntensity={0.1}
+        />
+      </mesh>
+      <mesh castShadow position={[0, 1.1, 0]}>
+        <coneGeometry args={[0.04, 0.4, 8]} />
+        <meshStandardMaterial
+          color="#333333"
+          metalness={1.0}
+          roughness={0.1}
+          emissive="#ff0000"
+          emissiveIntensity={0.2}
+        />
       </mesh>
     </group>
   )
