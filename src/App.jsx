@@ -44,7 +44,7 @@ const GAME_STATES = {
 
 const TIME_PER_QUESTION = 10
 const GRID_SIZE = 8
-const INITIAL_GRID = { x: 1, y: 1 }
+const INITIAL_GRID = { x: 3, y: 3 }
 const NUM_AI_PLAYERS = 5
 const AREA_GRID_CENTERS = [
   { x: 1, y: 1 },
@@ -53,11 +53,17 @@ const AREA_GRID_CENTERS = [
   { x: 5, y: 5 },
 ]
 
+const getRandomSpawnPosition = () => {
+  const x = Math.floor(Math.random() * GRID_SIZE)
+  const y = Math.floor(Math.random() * GRID_SIZE)
+  return { x, y }
+}
+
 const generateAIPlayers = () => {
   return Array.from({ length: NUM_AI_PLAYERS }, (_, i) => ({
     id: `ai-${i}`,
     name: `Player ${i + 2}`,
-    gridPosition: INITIAL_GRID,
+    gridPosition: getRandomSpawnPosition(),
     isAlive: true,
     color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][i]
   }))
@@ -85,7 +91,7 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
-  const [gridPosition, setGridPosition] = useState(INITIAL_GRID)
+  const [gridPosition, setGridPosition] = useState(getRandomSpawnPosition())
   const [isDead, setIsDead] = useState(false)
   const [aiPlayers, setAiPlayers] = useState(generateAIPlayers())
 
@@ -100,10 +106,10 @@ function App() {
       setSelectedAnswer(null)
       setShowCorrectAnswer(false)
       setIsDead(false)
-      setGridPosition(INITIAL_GRID)
+      setGridPosition(getRandomSpawnPosition())
       setAiPlayers(prev => prev.map(player => ({
         ...player,
-        gridPosition: INITIAL_GRID
+        gridPosition: player.isAlive ? getRandomSpawnPosition() : player.gridPosition
       })))
       setGameState(GAME_STATES.PLAYING)
     } else {
@@ -182,7 +188,7 @@ function App() {
     setSelectedAnswer(null)
     setShowCorrectAnswer(false)
     setIsDead(false)
-    setGridPosition(INITIAL_GRID)
+    setGridPosition(getRandomSpawnPosition())
     setAiPlayers(generateAIPlayers())
   }
 
