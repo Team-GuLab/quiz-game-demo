@@ -173,27 +173,21 @@ const GameScene3D = ({
       <Tree position={[-2, 0, -8]} />
       <Tree position={[3, 0, -5]} />
 
-      {/* Grass Bushes */}
+      {/* Grass Bushes - Reduced */}
       <Bush position={[-7, 0, -3]} />
       <Bush position={[7, 0, -3]} />
-      <Bush position={[-5, 0, 7]} />
-      <Bush position={[5, 0, 7]} />
       <Bush position={[-9, 0, 2]} />
       <Bush position={[9, 0, 2]} />
 
-      {/* Flowers */}
+      {/* Flowers - Reduced */}
       <Flower position={[-4, 0, -5]} color="#FF69B4" />
       <Flower position={[4, 0, -4]} color="#FFD700" />
-      <Flower position={[-6, 0, 4]} color="#FF1493" />
-      <Flower position={[6, 0, 5]} color="#FFA500" />
       <Flower position={[-2, 0, -8]} color="#FF69B4" />
       <Flower position={[2, 0, -8]} color="#FFD700" />
 
-      {/* Rocks */}
+      {/* Rocks - Reduced */}
       <Rock position={[-8, 0, -5]} />
       <Rock position={[8, 0, -4]} />
-      <Rock position={[-7, 0, 8]} />
-      <Rock position={[7, 0, 8]} />
 
       {/* Clouds */}
       <Cloud position={[-5, 5, -8]} />
@@ -203,28 +197,38 @@ const GameScene3D = ({
       <Cloud position={[6, 5.5, -7]} />
       <Cloud position={[0, 6.5, -9]} />
 
-      {/* North Area - Bench, Sign, Dirt Path */}
+      {/* North Area - Bench, Sign */}
       <Bench position={[-3, 0, -5.5]} />
       <Sign position={[1, 0, -6.5]} />
 
-      {/* North Area Decorations - Bushes */}
+      {/* North Area Decorations - Minimal */}
       <Bush position={[-5, 0, -6]} />
-      <Bush position={[5, 0, -7]} />
-      <Bush position={[-1, 0, -8.5]} />
       <Bush position={[3.5, 0, -5]} />
-
-      {/* North Area Decorations - Flowers */}
-      <Flower position={[-4.5, 0, -7.5]} color="#FF69B4" />
-      <Flower position={[4.5, 0, -6.5]} color="#FFA500" />
       <Flower position={[-1.5, 0, -5.8]} color="#FFD700" />
       <Flower position={[2.5, 0, -7.8]} color="#FF1493" />
-      <Flower position={[-6, 0, -8]} color="#FFA500" />
-      <Flower position={[6, 0, -8.5]} color="#FF69B4" />
-
-      {/* North Area Decorations - Rocks */}
-      <Rock position={[-6.5, 0, -5.5]} />
-      <Rock position={[6, 0, -5]} />
       <Rock position={[-2.5, 0, -9]} />
+
+      {/* East & West - Minimal */}
+      <Bush position={[6, 0, 2]} />
+      <Bush position={[-6, 0, 2]} />
+      <Flower position={[5.5, 0, 0]} color="#FFD700" />
+      <Flower position={[-5.5, 0, 0]} color="#FFA500" />
+
+      {/* South Area - Near Game Board (Focus Area) */}
+      <Bush position={[-3.5, 0, 4.5]} />
+      <Bush position={[3.5, 0, 4.5]} />
+      <Bush position={[0, 0, 6.5]} />
+      <Bush position={[-2.5, 0, 6]} />
+
+      <Flower position={[-3.2, 0, 5]} color="#FF69B4" />
+      <Flower position={[3.2, 0, 5.2]} color="#FFD700" />
+      <Flower position={[-1.5, 0, 4.8]} color="#FFA500" />
+      <Flower position={[1.8, 0, 4.6]} color="#FF1493" />
+      <Flower position={[2, 0, 6.8]} color="#FF69B4" />
+      <Flower position={[-4, 0, 5.8]} color="#FFD700" />
+
+      <Rock position={[-3.8, 0, 4.8]} />
+      <Rock position={[0.5, 0, 5.5]} />
     </Canvas>
   )
 }
