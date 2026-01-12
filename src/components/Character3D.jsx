@@ -1,8 +1,9 @@
 import { useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 
-const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false }) => {
+const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, name }) => {
   const groupRef = useRef()
   const bodyRef = useRef()
   const legLeftRef = useRef()
@@ -131,6 +132,34 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false }) 
 
   return (
     <group ref={groupRef}>
+      {/* Nickname displayed above character */}
+      {name && !isDead && (
+        <Html
+          position={[0, 2.0, 0]}
+          center
+          distanceFactor={8}
+          style={{
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+        >
+          <div
+            style={{
+              color: isPlayer ? '#FFD93D' : '#FFFFFF',
+              fontSize: '28px',
+              fontWeight: '700',
+              whiteSpace: 'nowrap',
+              textShadow: isPlayer
+                ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 4px rgba(0,0,0,0.8)'
+                : '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+            }}
+          >
+            {name}
+          </div>
+        </Html>
+      )}
+
       {/* Head */}
       <mesh position={[0, 1.2, 0]} castShadow>
         <boxGeometry args={[0.6, 0.6, 0.6]} />

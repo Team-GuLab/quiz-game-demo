@@ -18,7 +18,8 @@ const GameScene3D = ({
   questionIndex,
   totalQuestions,
   isDead,
-  aiPlayers
+  aiPlayers,
+  playerName
 }) => {
   const getAreaColor = (index) => {
     const colors = ['#A8E6CF', '#FFD3B6', '#FFAAA5', '#B8E0D2']
@@ -47,7 +48,7 @@ const GameScene3D = ({
       style={{
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(to bottom, #87CEEB, #E0F6FF)'
+        background: 'linear-gradient(to bottom, #1E90FF, #87CEEB)'
       }}
     >
       <ambientLight intensity={0.5} />
@@ -63,8 +64,8 @@ const GameScene3D = ({
         shadow-camera-bottom={-10}
       />
 
-      <Sky sunPosition={[100, 20, 100]} />
-      <Environment preset="sunset" />
+      <Sky sunPosition={[100, 30, 100]}/>
+      <Environment preset="park" />
 
 
       <mesh receiveShadow position={[0, -0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -138,6 +139,7 @@ const GameScene3D = ({
         isDead={isDead}
         color="#6C5CE7"
         isPlayer={true}
+        name={playerName}
       />
 
       {aiPlayers.map((player) => (
@@ -149,6 +151,7 @@ const GameScene3D = ({
           }}
           isDead={!player.isAlive}
           color={player.color}
+          name={player.name}
         />
       ))}
 
@@ -513,8 +516,8 @@ const FencePost = ({ position }) => {
         <meshStandardMaterial color="#8B4513" roughness={0.9} />
       </mesh>
       {/* Top cap */}
-      <mesh position={[0, 0.42, 0]} castShadow>
-        <boxGeometry args={[0.14, 0.04, 0.14]} />
+      <mesh position={[0, 0.0, 0]} castShadow>
+        <boxGeometry args={[0.14, 1.34, 0.14]} />
         <meshStandardMaterial color="#6B4423" roughness={0.85} />
       </mesh>
     </group>

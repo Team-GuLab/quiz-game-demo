@@ -3,22 +3,59 @@ import { useFrame } from '@react-three/fiber'
 
 const Spike = ({ position, delay = 0 }) => {
   const groupRef = useRef()
-  const spikeHeight = useRef(0)
-  const time = useRef(-delay)
+  const elapsedTime = useRef(-delay)
+  const state = useRef('rising') // 'rising', 'holding', 'falling', 'done'
+  const holdTimer = useRef(0)
 
-  useFrame((state, delta) => {
-    time.current += delta
+  const RISE_SPEED = 9 // 위로 올라가는 속도
+  const FALL_SPEED = 4.5 // 아래로 내려가는 속도
+  const HOLD_TIME = 0.1 // 정지 시간
+  const MIN_HEIGHT = -1.5 // 최소 높이 (바닥 아래)
+  const MAX_HEIGHT = 0 // 최대 높이 (바닥)
 
-    if (time.current > 0 && spikeHeight.current < 1.5) {
-      spikeHeight.current += delta * 3
-      if (groupRef.current) {
-        groupRef.current.position.y = Math.min(spikeHeight.current - 0.5, 0)
+  useFrame((_, delta) => {
+    elapsedTime.current += delta
+
+    // delay 시간 전에는 아무것도 안함
+    if (elapsedTime.current <= 0) return
+    if (!groupRef.current) return
+
+    if (state.current === 'rising') {
+      // 위로 이동
+      const currentY = groupRef.current.position.y
+      const newY = currentY + delta * RISE_SPEED
+
+      if (newY >= MAX_HEIGHT) {
+        groupRef.current.position.y = MAX_HEIGHT
+        state.current = 'holding'
+        holdTimer.current = 0
+      } else {
+        groupRef.current.position.y = newY
+      }
+    }
+    else if (state.current === 'holding') {
+      // 0.1초 대기
+      holdTimer.current += delta
+      if (holdTimer.current >= HOLD_TIME) {
+        state.current = 'falling'
+      }
+    }
+    else if (state.current === 'falling') {
+      // 아래로 이동
+      const currentY = groupRef.current.position.y
+      const newY = currentY - delta * FALL_SPEED
+
+      if (newY <= MIN_HEIGHT) {
+        groupRef.current.position.y = MIN_HEIGHT
+        state.current = 'done'
+      } else {
+        groupRef.current.position.y = newY
       }
     }
   })
 
   return (
-    <group ref={groupRef} position={[position[0], -0.5, position[2]]}>
+    <group ref={groupRef} position={[position[0], -1.5, position[2]]}>
       <mesh castShadow position={[0, 0.1, 0]}>
         <cylinderGeometry args={[0.08, 0.08, 0.2, 8]} />
         <meshStandardMaterial
@@ -60,12 +97,11 @@ const SpikeField = ({ areaPosition }) => {
     for (let z = 0; z < gridSize; z++) {
       const posX = areaPosition[0] - 1.65 + x * spacing
       const posZ = areaPosition[2] - 1.65 + z * spacing
-      const delay = (x + z) * 0.04
       spikes.push(
         <Spike
           key={`${x}-${z}`}
           position={[posX, 0, posZ]}
-          delay={delay}
+          delay={0}
         />
       )
     }

@@ -44,12 +44,20 @@ const GAME_STATES = {
 
 const TIME_PER_QUESTION = 10
 const GRID_SIZE = 8
-const NUM_AI_PLAYERS = 5
+const NUM_AI_PLAYERS = 4
 const AREA_GRID_CENTERS = [
   { x: 1, y: 1 },
   { x: 5, y: 1 },
   { x: 1, y: 5 },
   { x: 5, y: 5 },
+]
+
+const NICKNAMES = [
+  '꿈꾸는 구랩',
+  '희망찬 로봇',
+  '전설의 로봇',
+  '신비로운 로봇',
+  '찬란한 로봇'
 ]
 
 const getRandomSpawnPosition = () => {
@@ -65,10 +73,10 @@ const getRandomMoveInterval = () => {
 const generateAIPlayers = () => {
   return Array.from({ length: NUM_AI_PLAYERS }, (_, i) => ({
     id: `ai-${i}`,
-    name: `Player ${i + 2}`,
+    name: NICKNAMES[i + 1], // AI players get nicknames 1-4
     gridPosition: getRandomSpawnPosition(),
     isAlive: true,
-    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][i],
+    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A'][i],
     nextMoveTime: Date.now() + getRandomMoveInterval()
   }))
 }
@@ -398,6 +406,7 @@ function App() {
           totalQuestions={QUESTIONS.length}
           isDead={isDead}
           aiPlayers={aiPlayers}
+          playerName={NICKNAMES[0]}
         />
 
         {gameState === GAME_STATES.PLAYING && (
