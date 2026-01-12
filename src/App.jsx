@@ -96,6 +96,7 @@ function App() {
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
   const [gridPosition, setGridPosition] = useState(getRandomSpawnPosition())
+  const [targetGridPosition, setTargetGridPosition] = useState(null)
   const [isDead, setIsDead] = useState(false)
   const [aiPlayers, setAiPlayers] = useState(generateAIPlayers())
 
@@ -111,6 +112,7 @@ function App() {
       setShowCorrectAnswer(false)
       setIsDead(false)
       setGridPosition(getRandomSpawnPosition())
+      setTargetGridPosition(null)
       setAiPlayers(prev => prev.map(player => ({
         ...player,
         gridPosition: player.isAlive ? getRandomSpawnPosition() : player.gridPosition,
@@ -182,7 +184,7 @@ function App() {
 
   const handleAreaClick = (index) => {
     if (gameState !== GAME_STATES.PLAYING) return
-    setGridPosition(AREA_GRID_CENTERS[index])
+    setTargetGridPosition(AREA_GRID_CENTERS[index])
   }
 
   const startGame = () => {
@@ -194,6 +196,7 @@ function App() {
     setShowCorrectAnswer(false)
     setIsDead(false)
     setGridPosition(getRandomSpawnPosition())
+    setTargetGridPosition(null)
     setAiPlayers(generateAIPlayers())
   }
 
@@ -211,6 +214,37 @@ function App() {
 
     return () => clearInterval(timer)
   }, [gameState, timeLeft, handleTimeUp])
+
+  useEffect(() => {
+    if (gameState !== GAME_STATES.PLAYING || !targetGridPosition) return
+
+    const moveInterval = setInterval(() => {
+      setGridPosition(prev => {
+        if (prev.x === targetGridPosition.x && prev.y === targetGridPosition.y) {
+          setTargetGridPosition(null)
+          return prev
+        }
+
+        let newX = prev.x
+        let newY = prev.y
+
+        // 먼저 X 좌표를 맞추고, X가 같으면 Y를 맞춤 (심플한 경로)
+        if (prev.x < targetGridPosition.x) {
+          newX = prev.x + 1
+        } else if (prev.x > targetGridPosition.x) {
+          newX = prev.x - 1
+        } else if (prev.y < targetGridPosition.y) {
+          newY = prev.y + 1
+        } else if (prev.y > targetGridPosition.y) {
+          newY = prev.y - 1
+        }
+
+        return { x: newX, y: newY }
+      })
+    }, 150)
+
+    return () => clearInterval(moveInterval)
+  }, [gameState, targetGridPosition])
 
   useEffect(() => {
     if (gameState !== GAME_STATES.PLAYING) return
