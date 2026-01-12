@@ -307,7 +307,7 @@ function App() {
     return (
       <div className="app">
         <div className="start-screen">
-          <h2 className="game-title">🎮 3D 스피드 퀴즈</h2>
+          <h2 className="game-title">🎮 3D 스피드 퀴즈 디자인 데모</h2>
           <p className="game-description">
             3D 캐릭터를 움직여서<br/>
             정답 영역으로 가세요!
