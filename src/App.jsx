@@ -45,6 +45,17 @@ const GAME_STATES = {
 const TIME_PER_QUESTION = 10
 const GRID_SIZE = 8
 const INITIAL_GRID = { x: 1, y: 1 }
+const NUM_AI_PLAYERS = 5
+
+const generateAIPlayers = () => {
+  return Array.from({ length: NUM_AI_PLAYERS }, (_, i) => ({
+    id: `ai-${i}`,
+    name: `Player ${i + 2}`,
+    gridPosition: INITIAL_GRID,
+    isAlive: true,
+    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][i]
+  }))
+}
 
 const gridToPercent = (gridX, gridY) => {
   const x = (gridX / (GRID_SIZE - 1)) * 100
@@ -70,10 +81,18 @@ function App() {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
   const [gridPosition, setGridPosition] = useState(INITIAL_GRID)
   const [isDead, setIsDead] = useState(false)
+  const [aiPlayers, setAiPlayers] = useState(generateAIPlayers())
 
   const currentArea = getAreaFromGrid(gridPosition.x, gridPosition.y)
   const characterPosition = gridToPercent(gridPosition.x, gridPosition.y)
   const currentQuestion = QUESTIONS[currentQuestionIndex]
+
+  const areaGridCenters = [
+    { x: 1, y: 1 },
+    { x: 5, y: 1 },
+    { x: 1, y: 5 },
+    { x: 5, y: 5 },
+  ]
 
   const goToNextQuestion = () => {
     if (currentQuestionIndex < QUESTIONS.length - 1) {
@@ -95,6 +114,17 @@ function App() {
     setShowCorrectAnswer(true)
 
     const isCorrect = answerIndex === currentQuestion.correctAnswer
+
+    setAiPlayers(prev => prev.map(player => {
+      if (!player.isAlive) return player
+      const playerArea = getAreaFromGrid(player.gridPosition.x, player.gridPosition.y)
+      const playerCorrect = playerArea === currentQuestion.correctAnswer
+      return {
+        ...player,
+        isAlive: playerCorrect
+      }
+    }))
+
     if (isCorrect) {
       setScore(prev => prev + 100)
       setGameState(GAME_STATES.RESULT)
@@ -113,6 +143,17 @@ function App() {
     setShowCorrectAnswer(true)
 
     const isCorrect = currentArea === currentQuestion.correctAnswer
+
+    setAiPlayers(prev => prev.map(player => {
+      if (!player.isAlive) return player
+      const playerArea = getAreaFromGrid(player.gridPosition.x, player.gridPosition.y)
+      const playerCorrect = playerArea === currentQuestion.correctAnswer
+      return {
+        ...player,
+        isAlive: playerCorrect
+      }
+    }))
+
     if (isCorrect) {
       const timeBonus = Math.floor(timeLeft * 10)
       setScore(prev => prev + 100 + timeBonus)
@@ -127,14 +168,6 @@ function App() {
 
   const handleAreaClick = (index) => {
     if (gameState !== GAME_STATES.PLAYING) return
-
-    const areaGridCenters = [
-      { x: 1, y: 1 },
-      { x: 5, y: 1 },
-      { x: 1, y: 5 },
-      { x: 5, y: 5 },
-    ]
-
     setGridPosition(areaGridCenters[index])
   }
 
@@ -147,6 +180,7 @@ function App() {
     setShowCorrectAnswer(false)
     setIsDead(false)
     setGridPosition(INITIAL_GRID)
+    setAiPlayers(generateAIPlayers())
   }
 
   useEffect(() => {
@@ -157,12 +191,23 @@ function App() {
       return
     }
 
+    if (timeLeft <= 2 && timeLeft > 1.9) {
+      setAiPlayers(prev => prev.map(player => {
+        if (!player.isAlive) return player
+        const randomArea = Math.floor(Math.random() * 4)
+        return {
+          ...player,
+          gridPosition: areaGridCenters[randomArea]
+        }
+      }))
+    }
+
     const timer = setInterval(() => {
       setTimeLeft(prev => prev - 0.1)
     }, 100)
 
     return () => clearInterval(timer)
-  }, [gameState, timeLeft, handleTimeUp])
+  }, [gameState, timeLeft, handleTimeUp, areaGridCenters])
 
   useEffect(() => {
     if (gameState !== GAME_STATES.PLAYING) return
@@ -226,6 +271,8 @@ function App() {
   if (gameState === GAME_STATES.GAME_OVER) {
     const isGameOverByWrongAnswer = isDead
     const completedQuestions = isGameOverByWrongAnswer ? currentQuestionIndex : QUESTIONS.length
+    const survivorsCount = aiPlayers.filter(p => p.isAlive).length + (!isDead ? 1 : 0)
+    const totalPlayers = NUM_AI_PLAYERS + 1
 
     return (
       <div className="app">
@@ -236,6 +283,9 @@ function App() {
           {isGameOverByWrongAnswer && (
             <p className="game-over-message">가시에 찔렸습니다!</p>
           )}
+          {!isGameOverByWrongAnswer && (
+            <p className="game-over-message" style={{color: '#2ed573'}}>축하합니다! 모든 문제를 해결했습니다!</p>
+          )}
           <div className="final-score">
             <div className="score-label">최종 점수</div>
             <div className="score-value">{score}</div>
@@ -245,6 +295,12 @@ function App() {
               <span className="stat-label">푼 문제</span>
               <span className="stat-value">
                 {completedQuestions} / {QUESTIONS.length}
+              </span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">생존자</span>
+              <span className="stat-value">
+                {survivorsCount} / {totalPlayers}
               </span>
             </div>
           </div>
@@ -274,6 +330,7 @@ function App() {
         questionIndex={currentQuestionIndex}
         totalQuestions={QUESTIONS.length}
         isDead={isDead}
+        aiPlayers={aiPlayers}
       />
 
       {gameState === GAME_STATES.PLAYING && (

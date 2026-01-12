@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const Character3D = ({ position, isDead }) => {
+const Character3D = ({ position, isDead, color = '#6C5CE7' }) => {
   const groupRef = useRef()
   const bodyRef = useRef()
   const legLeftRef = useRef()
@@ -129,30 +129,30 @@ const Character3D = ({ position, isDead }) => {
 
       <mesh ref={bodyRef} position={[0, 0.6, 0]} castShadow>
         <boxGeometry args={[0.6, 0.7, 0.5]} />
-        <meshStandardMaterial color="#6C5CE7" />
+        <meshStandardMaterial color={color} />
       </mesh>
 
       <mesh position={[-0.4, 0.7, 0]} castShadow>
         <boxGeometry args={[0.15, 0.5, 0.15]} />
-        <meshStandardMaterial color="#6C5CE7" />
+        <meshStandardMaterial color={color} />
       </mesh>
 
       <mesh position={[0.4, 0.7, 0]} castShadow>
         <boxGeometry args={[0.15, 0.5, 0.15]} />
-        <meshStandardMaterial color="#6C5CE7" />
+        <meshStandardMaterial color={color} />
       </mesh>
 
       <group ref={legLeftRef} position={[-0.15, 0.2, 0]}>
         <mesh position={[0, -0.1, 0]} castShadow>
           <boxGeometry args={[0.2, 0.4, 0.2]} />
-          <meshStandardMaterial color="#6C5CE7" />
+          <meshStandardMaterial color={color} />
         </mesh>
       </group>
 
       <group ref={legRightRef} position={[0.15, 0.2, 0]}>
         <mesh position={[0, -0.1, 0]} castShadow>
           <boxGeometry args={[0.2, 0.4, 0.2]} />
-          <meshStandardMaterial color="#6C5CE7" />
+          <meshStandardMaterial color={color} />
         </mesh>
       </group>
     </group>

@@ -17,7 +17,8 @@ const GameScene3D = ({
   totalTime,
   questionIndex,
   totalQuestions,
-  isDead
+  isDead,
+  aiPlayers
 }) => {
   const getAreaColor = (index) => {
     const colors = ['#A8E6CF', '#FFD3B6', '#FFAAA5', '#B8E0D2']
@@ -204,7 +205,20 @@ const GameScene3D = ({
       <Character3D
         position={characterPosition}
         isDead={isDead}
+        color="#6C5CE7"
       />
+
+      {aiPlayers.map((player) => (
+        <Character3D
+          key={player.id}
+          position={{
+            x: (player.gridPosition.x / 7) * 100,
+            y: (player.gridPosition.y / 7) * 100
+          }}
+          isDead={!player.isAlive}
+          color={player.color}
+        />
+      ))}
 
       {showCorrectAnswer && areas.map((area) => {
         if (area.index === correctAnswer) return null
