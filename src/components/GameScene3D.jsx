@@ -42,7 +42,7 @@ const GameScene3D = ({
   return (
     <Canvas
       shadows
-      camera={{ position: [0, 8, 8], fov: 50 }}
+      camera={{ position: [0, 8, 8], fov: 60 }}
       style={{
         width: '100%',
         height: '100vh',
@@ -65,18 +65,18 @@ const GameScene3D = ({
       <Sky sunPosition={[100, 20, 100]} />
       <Environment preset="sunset" />
 
-      <group position={[0, 3, -6]}>
+      <group position={[0, 2.2, -4]}>
         <mesh castShadow>
-          <boxGeometry args={[12, 2.5, 0.3]} />
+          <boxGeometry args={[10, 2, 0.3]} />
           <meshStandardMaterial color="#1a1a2e" />
         </mesh>
         <Text
           position={[0, 0, 0.2]}
-          fontSize={0.5}
+          fontSize={0.45}
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          maxWidth={11}
+          maxWidth={9}
           textAlign="center"
           outlineWidth={0.04}
           outlineColor="#000000"
