@@ -194,23 +194,40 @@ function App() {
       return
     }
 
-    if (timeLeft <= 2 && timeLeft > 1.9) {
-      setAiPlayers(prev => prev.map(player => {
-        if (!player.isAlive) return player
-        const randomArea = Math.floor(Math.random() * 4)
-        return {
-          ...player,
-          gridPosition: AREA_GRID_CENTERS[randomArea]
-        }
-      }))
-    }
-
     const timer = setInterval(() => {
       setTimeLeft(prev => prev - 0.1)
     }, 100)
 
     return () => clearInterval(timer)
   }, [gameState, timeLeft, handleTimeUp])
+
+  useEffect(() => {
+    if (gameState !== GAME_STATES.PLAYING) return
+
+    const aiMoveInterval = setInterval(() => {
+      setAiPlayers(prev => prev.map(player => {
+        if (!player.isAlive) return player
+
+        const directions = [
+          { dx: 0, dy: -1 },
+          { dx: 0, dy: 1 },
+          { dx: -1, dy: 0 },
+          { dx: 1, dy: 0 }
+        ]
+
+        const randomDir = directions[Math.floor(Math.random() * 4)]
+        const newX = Math.max(0, Math.min(GRID_SIZE - 1, player.gridPosition.x + randomDir.dx))
+        const newY = Math.max(0, Math.min(GRID_SIZE - 1, player.gridPosition.y + randomDir.dy))
+
+        return {
+          ...player,
+          gridPosition: { x: newX, y: newY }
+        }
+      }))
+    }, 800)
+
+    return () => clearInterval(aiMoveInterval)
+  }, [gameState])
 
   useEffect(() => {
     if (gameState !== GAME_STATES.PLAYING) return
