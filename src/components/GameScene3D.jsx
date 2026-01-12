@@ -297,21 +297,21 @@ const Tree = ({ position }) => {
 
       {/* Branch 3 - Left */}
       <primitive object={createBranch(0, 1.75, 0, -1.1, 2.25, -0.15, 0.09)} />
-      <mesh castShadow position={[-1.1, 2.75, -0.15]}>
+      <mesh castShadow position={[-1.1, 2.55, -0.15]}>
         <boxGeometry args={[0.9, 0.6, 0.9]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
 
       {/* Branch 4 - Bottom left */}
       <primitive object={createBranch(0, 1.25, 0, -0.75, 1.6, 0.4, 0.075)} />
-      <mesh castShadow position={[-0.75, 2, 0.4]}>
+      <mesh castShadow position={[-0.75, 1.8, 0.4]}>
         <boxGeometry args={[0.675, 0.45, 0.675]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
 
       {/* Branch 5 - Bottom right */}
       <primitive object={createBranch(0, 1.4, 0, 0.9, 1.75, -0.25, 0.075)} />
-      <mesh castShadow position={[0.9, 2.15, -0.25]}>
+      <mesh castShadow position={[0.9, 2.05, -0.25]}>
         <boxGeometry args={[0.6375, 0.425, 0.6375]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>

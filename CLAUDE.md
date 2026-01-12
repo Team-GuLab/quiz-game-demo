@@ -41,7 +41,7 @@ npm run lint
 
 ## Architecture
 
-### Component Structure
+### Component Structure (src/components/)
 
 **App.jsx** - Main game logic container
 - Manages all game state (questions, scores, timers, player positions)
