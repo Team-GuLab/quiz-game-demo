@@ -171,7 +171,7 @@ const GameScene3D = ({
           </lineSegments>
 
           <Text
-            position={[area.x, 0.1, area.z - 1.5]}
+            position={[area.x, 0.15, area.z - 1.5]}
             rotation={[-Math.PI / 2, 0, 0]}
             fontSize={0.5}
             color="#ffffff"
@@ -181,17 +181,22 @@ const GameScene3D = ({
             {area.index + 1}
           </Text>
 
+          <mesh position={[area.x, 0.12, area.z + 0.3]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[3.6, 1.2]} />
+            <meshBasicMaterial color="#000000" transparent opacity={0.6} />
+          </mesh>
+
           <Text
-            position={[area.x, 0.1, area.z + 0.3]}
+            position={[area.x, 0.13, area.z + 0.3]}
             rotation={[-Math.PI / 2, 0, 0]}
             fontSize={0.35}
-            color="#000000"
+            color="#ffffff"
             anchorX="center"
             anchorY="middle"
             maxWidth={3.5}
             textAlign="center"
-            outlineWidth={0.02}
-            outlineColor="#ffffff"
+            outlineWidth={0.03}
+            outlineColor="#000000"
           >
             {options[area.index]}
           </Text>
