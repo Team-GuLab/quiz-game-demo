@@ -37,10 +37,10 @@ const GameScene3D = ({
   }
 
   const areas = [
-    { index: 0, x: -2, z: -2 },
-    { index: 1, x: 2, z: -2 },
-    { index: 2, x: -2, z: 2 },
-    { index: 3, x: 2, z: 2 },
+    { index: 0, x: -2.1, z: -2.1 },
+    { index: 1, x: 2.1, z: -2.1 },
+    { index: 2, x: -2.1, z: 2.1 },
+    { index: 3, x: 2.1, z: 2.1 },
   ]
 
   return (
@@ -88,7 +88,7 @@ const GameScene3D = ({
               }
             }}
           >
-            <planeGeometry args={[3.8, 3.8]} />
+            <planeGeometry args={[4.0, 4.0]} />
             <meshStandardMaterial
               color={getAreaColor(area.index)}
               transparent
@@ -99,7 +99,7 @@ const GameScene3D = ({
           <lineSegments position={[area.x, 0.02, area.z]}>
             <edgesGeometry
               attach="geometry"
-              args={[new THREE.BoxGeometry(3.8, 0.1, 3.8)]}
+              args={[new THREE.BoxGeometry(4.0, 0.1, 4.0)]}
             />
             <lineBasicMaterial
               attach="material"
