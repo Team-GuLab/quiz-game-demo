@@ -58,13 +58,18 @@ const getRandomSpawnPosition = () => {
   return { x, y }
 }
 
+const getRandomMoveInterval = () => {
+  return 500 + Math.random() * 1000
+}
+
 const generateAIPlayers = () => {
   return Array.from({ length: NUM_AI_PLAYERS }, (_, i) => ({
     id: `ai-${i}`,
     name: `Player ${i + 2}`,
     gridPosition: getRandomSpawnPosition(),
     isAlive: true,
-    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][i]
+    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][i],
+    nextMoveTime: Date.now() + getRandomMoveInterval()
   }))
 }
 
@@ -108,7 +113,8 @@ function App() {
       setGridPosition(getRandomSpawnPosition())
       setAiPlayers(prev => prev.map(player => ({
         ...player,
-        gridPosition: player.isAlive ? getRandomSpawnPosition() : player.gridPosition
+        gridPosition: player.isAlive ? getRandomSpawnPosition() : player.gridPosition,
+        nextMoveTime: player.isAlive ? Date.now() + getRandomMoveInterval() : player.nextMoveTime
       })))
       setGameState(GAME_STATES.PLAYING)
     } else {
@@ -210,8 +216,11 @@ function App() {
     if (gameState !== GAME_STATES.PLAYING) return
 
     const aiMoveInterval = setInterval(() => {
+      const now = Date.now()
+
       setAiPlayers(prev => prev.map(player => {
         if (!player.isAlive) return player
+        if (now < player.nextMoveTime) return player
 
         const directions = [
           { dx: 0, dy: -1 },
@@ -226,10 +235,11 @@ function App() {
 
         return {
           ...player,
-          gridPosition: { x: newX, y: newY }
+          gridPosition: { x: newX, y: newY },
+          nextMoveTime: now + getRandomMoveInterval()
         }
       }))
-    }, 800)
+    }, 100)
 
     return () => clearInterval(aiMoveInterval)
   }, [gameState])
