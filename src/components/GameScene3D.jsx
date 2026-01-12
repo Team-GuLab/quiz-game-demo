@@ -67,17 +67,20 @@ const GameScene3D = ({
 
       <group position={[0, 3, -6]}>
         <mesh castShadow>
-          <boxGeometry args={[10, 2, 0.3]} />
-          <meshStandardMaterial color="#2d2d44" />
+          <boxGeometry args={[12, 2.5, 0.3]} />
+          <meshStandardMaterial color="#1a1a2e" />
         </mesh>
         <Text
           position={[0, 0, 0.2]}
-          fontSize={0.4}
+          fontSize={0.5}
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          maxWidth={9}
+          maxWidth={11}
           textAlign="center"
+          outlineWidth={0.04}
+          outlineColor="#000000"
+          fontWeight="bold"
         >
           {question}
         </Text>
