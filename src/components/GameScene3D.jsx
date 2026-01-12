@@ -227,10 +227,10 @@ const GameScene3D = ({
       <Flower position={[-5.5, 0, 0]} color="#FFA500" />
 
       {/* South Area - Near Game Board (Focus Area) */}
-      <Bush position={[-3.5, 0, 4.5]} />
-      <Bush position={[3.5, 0, 4.5]} />
-      <Bush position={[0, 0, 6.5]} />
-      <Bush position={[-2.5, 0, 6]} />
+      <Bush position={[-3.5, 0, 5]} />
+      <Bush position={[3.5, 0, 4.8]} />
+      <Bush position={[0, 0, 7]} />
+      <Bush position={[-2.5, 0, 6.5]} />
 
       <Flower position={[-3.2, 0, 5]} color="#FF69B4" />
       <Flower position={[3.2, 0, 5.2]} color="#FFD700" />
@@ -239,7 +239,7 @@ const GameScene3D = ({
       <Flower position={[2, 0, 6.8]} color="#FF69B4" />
       <Flower position={[-4, 0, 5.8]} color="#FFD700" />
 
-      <Rock position={[-3.8, 0, 4.8]} />
+      <Rock position={[-3.8, 0, 5.3]} />
       <Rock position={[0.5, 0, 5.5]} />
     </Canvas>
   )
@@ -636,7 +636,7 @@ const FenceSection = ({ start, end }) => {
 }
 
 const GameAreaFence = () => {
-  const fenceDistance = 4.4
+  const fenceDistance = 4.35
   const spacing = 1.4
   const posts = []
   const sections = []
