@@ -308,7 +308,7 @@ function App() {
     return (
       <div className="app">
         <div className="start-screen">
-          <h1 className="game-title">🎮 3D 스피드 퀴즈</h1>
+          <h2 className="game-title">🎮 3D 스피드 퀴즈</h2>
           <p className="game-description">
             3D 캐릭터를 움직여서<br/>
             정답 영역으로 가세요!
@@ -326,8 +326,6 @@ function App() {
           <div className="game-instructions">
             <p>⌨️ 방향키(↑↓←→)로 3D 캐릭터 이동</p>
             <p>🖱️ 영역 클릭으로 빠른 이동 가능</p>
-            <p>🎯 길건너친구들 스타일 3D 그래픽!</p>
-            <p>⚡ Enter 키로 빠르게 정답 제출!</p>
           </div>
           <button className="start-button" onClick={startGame}>
             게임 시작
