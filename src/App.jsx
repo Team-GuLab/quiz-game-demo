@@ -46,6 +46,12 @@ const TIME_PER_QUESTION = 10
 const GRID_SIZE = 8
 const INITIAL_GRID = { x: 1, y: 1 }
 const NUM_AI_PLAYERS = 5
+const AREA_GRID_CENTERS = [
+  { x: 1, y: 1 },
+  { x: 5, y: 1 },
+  { x: 1, y: 5 },
+  { x: 5, y: 5 },
+]
 
 const generateAIPlayers = () => {
   return Array.from({ length: NUM_AI_PLAYERS }, (_, i) => ({
@@ -87,13 +93,6 @@ function App() {
   const characterPosition = gridToPercent(gridPosition.x, gridPosition.y)
   const currentQuestion = QUESTIONS[currentQuestionIndex]
 
-  const areaGridCenters = [
-    { x: 1, y: 1 },
-    { x: 5, y: 1 },
-    { x: 1, y: 5 },
-    { x: 5, y: 5 },
-  ]
-
   const goToNextQuestion = () => {
     if (currentQuestionIndex < QUESTIONS.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1)
@@ -102,6 +101,10 @@ function App() {
       setShowCorrectAnswer(false)
       setIsDead(false)
       setGridPosition(INITIAL_GRID)
+      setAiPlayers(prev => prev.map(player => ({
+        ...player,
+        gridPosition: INITIAL_GRID
+      })))
       setGameState(GAME_STATES.PLAYING)
     } else {
       setGameState(GAME_STATES.GAME_OVER)
@@ -168,7 +171,7 @@ function App() {
 
   const handleAreaClick = (index) => {
     if (gameState !== GAME_STATES.PLAYING) return
-    setGridPosition(areaGridCenters[index])
+    setGridPosition(AREA_GRID_CENTERS[index])
   }
 
   const startGame = () => {
@@ -197,7 +200,7 @@ function App() {
         const randomArea = Math.floor(Math.random() * 4)
         return {
           ...player,
-          gridPosition: areaGridCenters[randomArea]
+          gridPosition: AREA_GRID_CENTERS[randomArea]
         }
       }))
     }
@@ -207,7 +210,7 @@ function App() {
     }, 100)
 
     return () => clearInterval(timer)
-  }, [gameState, timeLeft, handleTimeUp, areaGridCenters])
+  }, [gameState, timeLeft, handleTimeUp])
 
   useEffect(() => {
     if (gameState !== GAME_STATES.PLAYING) return
