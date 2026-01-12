@@ -205,9 +205,13 @@ const GameScene3D = ({
       <Cloud position={[6, 5.5, -7]} />
       <Cloud position={[0, 6.5, -9]} />
 
-      {/* North Area - Bench, Sign */}
+      {/* North Area - Bench, Sign, Lantern */}
       <Bench position={[-3, 0, -5.5]} />
+      <Lantern position={[-4.2, 0, -5.5]} />
       <Sign position={[1, 0, -6.5]} />
+
+      {/* Campfire - Northeast outside fence */}
+      <Campfire position={[5.5, 0, -5.5]} />
 
       {/* North Area Decorations - Minimal */}
       <Bush position={[-5, 0, -6]} />
@@ -283,36 +287,36 @@ const Tree = ({ position }) => {
 
       {/* Branch 1 - Center top */}
       <primitive object={createBranch(0, 2, 0, -0.1, 2.75, 0, 0.1)} />
-      <mesh castShadow position={[-0.1, 3.25, 0]}>
-        <boxGeometry args={[1.05, 0.7, 1.05]} />
+      <mesh castShadow position={[-0.1, 3.25, 0]} scale={[1.3, 1, 1.2]} rotation={[0.3, 0.7, 0.2]}>
+        <dodecahedronGeometry args={[0.69, 0]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
 
       {/* Branch 2 - Right */}
       <primitive object={createBranch(0, 1.9, 0, 1.25, 2.5, 0.25, 0.09)} />
-      <mesh castShadow position={[1.25, 3, 0.25]}>
-        <boxGeometry args={[0.975, 0.65, 0.975]} />
+      <mesh castShadow position={[1.25, 3, 0.25]} scale={[1.4, 1, 1.1]} rotation={[0.5, 0.3, 0.6]}>
+        <dodecahedronGeometry args={[0.63, 0]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
 
       {/* Branch 3 - Left */}
       <primitive object={createBranch(0, 1.75, 0, -1.1, 2.25, -0.15, 0.09)} />
-      <mesh castShadow position={[-1.1, 2.55, -0.15]}>
-        <boxGeometry args={[0.9, 0.6, 0.9]} />
+      <mesh castShadow position={[-1.1, 2.55, -0.15]} scale={[1.2, 1, 1.35]} rotation={[0.2, 0.5, 0.4]}>
+        <dodecahedronGeometry args={[0.58, 0]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
 
       {/* Branch 4 - Bottom left */}
       <primitive object={createBranch(0, 1.25, 0, -0.75, 1.6, 0.4, 0.075)} />
-      <mesh castShadow position={[-0.75, 1.8, 0.4]}>
-        <boxGeometry args={[0.675, 0.45, 0.675]} />
+      <mesh castShadow position={[-0.75, 1.8, 0.4]} scale={[1.25, 1, 1.15]} rotation={[0.6, 0.2, 0.3]}>
+        <dodecahedronGeometry args={[0.46, 0]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
 
       {/* Branch 5 - Bottom right */}
       <primitive object={createBranch(0, 1.4, 0, 0.9, 1.75, -0.25, 0.075)} />
-      <mesh castShadow position={[0.9, 2.05, -0.25]}>
-        <boxGeometry args={[0.6375, 0.425, 0.6375]} />
+      <mesh castShadow position={[0.9, 2.00, -0.25]} scale={[1.35, 1, 1.25]} rotation={[0.4, 0.6, 0.5]}>
+        <dodecahedronGeometry args={[0.43, 0]} />
         <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
     </group>
@@ -488,6 +492,110 @@ const Sign = ({ position }) => {
   )
 }
 
+const Lantern = ({ position }) => {
+  return (
+    <group position={position}>
+      {/* Wooden pole */}
+      <mesh castShadow position={[0, 0.75, 0]}>
+        <cylinderGeometry args={[0.06, 0.07, 1.5, 6]} />
+        <meshStandardMaterial color="#5D4037" roughness={0.9} />
+      </mesh>
+
+      {/* Iron bracket */}
+      <mesh castShadow position={[0.15, 1.45, 0]}>
+        <boxGeometry args={[0.3, 0.05, 0.05]} />
+        <meshStandardMaterial color="#424242" roughness={0.7} metalness={0.5} />
+      </mesh>
+
+      {/* Lantern body - glowing part */}
+      <mesh position={[0.3, 1.35, 0]}>
+        <boxGeometry args={[0.16, 0.26, 0.16]} />
+        <meshStandardMaterial
+          color="#FFD700"
+          emissive="#FF8C00"
+          emissiveIntensity={1.2}
+          transparent
+          opacity={0.8}
+        />
+      </mesh>
+
+      {/* Iron frame - vertical edges */}
+      <mesh castShadow position={[0.21, 1.35, 0.09]}>
+        <boxGeometry args={[0.02, 0.32, 0.02]} />
+        <meshStandardMaterial color="#424242" roughness={0.6} metalness={0.7} />
+      </mesh>
+      <mesh castShadow position={[0.39, 1.35, 0.09]}>
+        <boxGeometry args={[0.02, 0.32, 0.02]} />
+        <meshStandardMaterial color="#424242" roughness={0.6} metalness={0.7} />
+      </mesh>
+      <mesh castShadow position={[0.21, 1.35, -0.09]}>
+        <boxGeometry args={[0.02, 0.32, 0.02]} />
+        <meshStandardMaterial color="#424242" roughness={0.6} metalness={0.7} />
+      </mesh>
+      <mesh castShadow position={[0.39, 1.35, -0.09]}>
+        <boxGeometry args={[0.02, 0.32, 0.02]} />
+        <meshStandardMaterial color="#424242" roughness={0.6} metalness={0.7} />
+      </mesh>
+
+      {/* Iron frame - top and bottom */}
+      <mesh castShadow position={[0.3, 1.51, 0]}>
+        <boxGeometry args={[0.22, 0.02, 0.22]} />
+        <meshStandardMaterial color="#424242" roughness={0.6} metalness={0.7} />
+      </mesh>
+      <mesh castShadow position={[0.3, 1.19, 0]}>
+        <boxGeometry args={[0.22, 0.02, 0.22]} />
+        <meshStandardMaterial color="#424242" roughness={0.6} metalness={0.7} />
+      </mesh>
+    </group>
+  )
+}
+
+const Campfire = ({ position }) => {
+  return (
+    <group position={position}>
+      {/* Logs - 4 pieces */}
+      <mesh castShadow position={[0, 0.08, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.6, 6]} />
+        <meshStandardMaterial color="#4A2511" roughness={0.9} />
+      </mesh>
+      <mesh castShadow position={[0, 0.08, 0]} rotation={[0, Math.PI / 2, Math.PI / 2]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.6, 6]} />
+        <meshStandardMaterial color="#4A2511" roughness={0.9} />
+      </mesh>
+      <mesh castShadow position={[0, 0.16, 0]} rotation={[0, Math.PI / 4, Math.PI / 2]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.5, 6]} />
+        <meshStandardMaterial color="#5D3A1A" roughness={0.9} />
+      </mesh>
+      <mesh castShadow position={[0, 0.16, 0]} rotation={[0, -Math.PI / 4, Math.PI / 2]}>
+        <cylinderGeometry args={[0.07, 0.07, 0.5, 6]} />
+        <meshStandardMaterial color="#5D3A1A" roughness={0.9} />
+      </mesh>
+
+      {/* Fire */}
+      <mesh position={[0, 0.3, 0]}>
+        <coneGeometry args={[0.2, 0.4, 6]} />
+        <meshStandardMaterial
+          color="#FF6B00"
+          emissive="#FF4500"
+          emissiveIntensity={2}
+          transparent
+          opacity={0.8}
+        />
+      </mesh>
+      <mesh position={[0, 0.35, 0]}>
+        <coneGeometry args={[0.12, 0.3, 6]} />
+        <meshStandardMaterial
+          color="#FFD700"
+          emissive="#FFA500"
+          emissiveIntensity={2.5}
+          transparent
+          opacity={0.7}
+        />
+      </mesh>
+    </group>
+  )
+}
+
 const FencePost = ({ position }) => {
   return (
     <group position={position}>
@@ -528,7 +636,7 @@ const FenceSection = ({ start, end }) => {
 }
 
 const GameAreaFence = () => {
-  const fenceDistance = 4.2
+  const fenceDistance = 4.4
   const spacing = 1.4
   const posts = []
   const sections = []
