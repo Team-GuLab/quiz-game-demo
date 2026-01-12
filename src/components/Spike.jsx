@@ -12,7 +12,7 @@ const Spike = ({ position, delay = 0 }) => {
     if (time.current > 0 && spikeHeight.current < 1.5) {
       spikeHeight.current += delta * 3
       if (groupRef.current) {
-        groupRef.current.position.y = spikeHeight.current - 0.5
+        groupRef.current.position.y = Math.min(spikeHeight.current - 0.5, 0)
       }
     }
   })

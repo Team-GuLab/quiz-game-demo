@@ -43,7 +43,7 @@ const GameScene3D = ({
   return (
     <Canvas
       shadows
-      camera={{ position: [0, 8, 8], fov: 60 }}
+      camera={{ position: [0, 10, 10], fov: 70 }}
       style={{
         width: '100%',
         height: '100%',
@@ -163,15 +163,68 @@ const GameScene3D = ({
       })}
 
       <Tree position={[-6, 0, -6]} />
-      <Tree position={[6, 0, -6]} />
+      <Tree position={[7, 0, -6]} />
       <Tree position={[-6, 0, 6]} />
       <Tree position={[6, 0, 6]} />
       <Tree position={[-8, 0, 0]} />
       <Tree position={[8, 0, 0]} />
 
+      {/* Additional trees in the north */}
+      <Tree position={[-2, 0, -8]} />
+      <Tree position={[3, 0, -5]} />
+
+      {/* Grass Bushes */}
+      <Bush position={[-7, 0, -3]} />
+      <Bush position={[7, 0, -3]} />
+      <Bush position={[-5, 0, 7]} />
+      <Bush position={[5, 0, 7]} />
+      <Bush position={[-9, 0, 2]} />
+      <Bush position={[9, 0, 2]} />
+
+      {/* Flowers */}
+      <Flower position={[-4, 0, -5]} color="#FF69B4" />
+      <Flower position={[4, 0, -4]} color="#FFD700" />
+      <Flower position={[-6, 0, 4]} color="#FF1493" />
+      <Flower position={[6, 0, 5]} color="#FFA500" />
+      <Flower position={[-2, 0, -8]} color="#FF69B4" />
+      <Flower position={[2, 0, -8]} color="#FFD700" />
+
+      {/* Rocks */}
+      <Rock position={[-8, 0, -5]} />
+      <Rock position={[8, 0, -4]} />
+      <Rock position={[-7, 0, 8]} />
+      <Rock position={[7, 0, 8]} />
+
+      {/* Clouds */}
       <Cloud position={[-5, 5, -8]} />
       <Cloud position={[4, 6, -10]} />
       <Cloud position={[0, 5.5, -12]} />
+      <Cloud position={[-7, 6, -6]} />
+      <Cloud position={[6, 5.5, -7]} />
+      <Cloud position={[0, 6.5, -9]} />
+
+      {/* North Area - Bench, Sign, Dirt Path */}
+      <Bench position={[-3, 0, -5.5]} />
+      <Sign position={[1, 0, -6.5]} />
+
+      {/* North Area Decorations - Bushes */}
+      <Bush position={[-5, 0, -6]} />
+      <Bush position={[5, 0, -7]} />
+      <Bush position={[-1, 0, -8.5]} />
+      <Bush position={[3.5, 0, -5]} />
+
+      {/* North Area Decorations - Flowers */}
+      <Flower position={[-4.5, 0, -7.5]} color="#FF69B4" />
+      <Flower position={[4.5, 0, -6.5]} color="#FFA500" />
+      <Flower position={[-1.5, 0, -5.8]} color="#FFD700" />
+      <Flower position={[2.5, 0, -7.8]} color="#FF1493" />
+      <Flower position={[-6, 0, -8]} color="#FFA500" />
+      <Flower position={[6, 0, -8.5]} color="#FF69B4" />
+
+      {/* North Area Decorations - Rocks */}
+      <Rock position={[-6.5, 0, -5.5]} />
+      <Rock position={[6, 0, -5]} />
+      <Rock position={[-2.5, 0, -9]} />
     </Canvas>
   )
 }
@@ -301,6 +354,144 @@ const Cloud = ({ position }) => {
       <mesh position={[0, 0.3, 0]}>
         <sphereGeometry args={[0.3, 8, 8]} />
         <meshStandardMaterial color="#FFFFFF" opacity={0.8} transparent />
+      </mesh>
+    </group>
+  )
+}
+
+const Bush = ({ position }) => {
+  return (
+    <group position={position}>
+      {/* Main bush body */}
+      <mesh position={[0, 0.3, 0]} castShadow>
+        <sphereGeometry args={[0.4, 8, 8]} />
+        <meshStandardMaterial color="#228B22" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.2, 0.25, 0.1]} castShadow>
+        <sphereGeometry args={[0.3, 8, 8]} />
+        <meshStandardMaterial color="#2E8B57" roughness={0.9} />
+      </mesh>
+      <mesh position={[-0.2, 0.28, -0.1]} castShadow>
+        <sphereGeometry args={[0.35, 8, 8]} />
+        <meshStandardMaterial color="#3CB371" roughness={0.9} />
+      </mesh>
+    </group>
+  )
+}
+
+const Flower = ({ position, color }) => {
+  return (
+    <group position={position}>
+      {/* Stem */}
+      <mesh position={[0, 0.15, 0]} castShadow>
+        <cylinderGeometry args={[0.02, 0.02, 0.3, 8]} />
+        <meshStandardMaterial color="#2E7D32" />
+      </mesh>
+      {/* Flower petals */}
+      <mesh position={[0, 0.35, 0]} castShadow>
+        <sphereGeometry args={[0.08, 8, 8]} />
+        <meshStandardMaterial color={color} />
+      </mesh>
+      <mesh position={[0.06, 0.35, 0]} castShadow>
+        <sphereGeometry args={[0.06, 6, 6]} />
+        <meshStandardMaterial color={color} />
+      </mesh>
+      <mesh position={[-0.06, 0.35, 0]} castShadow>
+        <sphereGeometry args={[0.06, 6, 6]} />
+        <meshStandardMaterial color={color} />
+      </mesh>
+      <mesh position={[0, 0.35, 0.06]} castShadow>
+        <sphereGeometry args={[0.06, 6, 6]} />
+        <meshStandardMaterial color={color} />
+      </mesh>
+      <mesh position={[0, 0.35, -0.06]} castShadow>
+        <sphereGeometry args={[0.06, 6, 6]} />
+        <meshStandardMaterial color={color} />
+      </mesh>
+      {/* Center */}
+      <mesh position={[0, 0.35, 0]} castShadow>
+        <sphereGeometry args={[0.04, 8, 8]} />
+        <meshStandardMaterial color="#FFD700" />
+      </mesh>
+    </group>
+  )
+}
+
+const Rock = ({ position }) => {
+  return (
+    <group position={position}>
+      <mesh castShadow>
+        <dodecahedronGeometry args={[0.3, 0]} />
+        <meshStandardMaterial color="#808080" roughness={0.8} metalness={0.2} />
+      </mesh>
+      <mesh position={[0.25, 0.05, 0.15]} castShadow>
+        <dodecahedronGeometry args={[0.2, 0]} />
+        <meshStandardMaterial color="#696969" roughness={0.8} metalness={0.2} />
+      </mesh>
+    </group>
+  )
+}
+
+const Bench = ({ position }) => {
+  return (
+    <group position={position}>
+      {/* Legs */}
+      <mesh position={[-0.4, 0.2, 0.2]} castShadow>
+        <boxGeometry args={[0.08, 0.4, 0.08]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.4, 0.2, 0.2]} castShadow>
+        <boxGeometry args={[0.08, 0.4, 0.08]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      <mesh position={[-0.4, 0.2, -0.2]} castShadow>
+        <boxGeometry args={[0.08, 0.4, 0.08]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.4, 0.2, -0.2]} castShadow>
+        <boxGeometry args={[0.08, 0.4, 0.08]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      {/* Seat */}
+      <mesh position={[0, 0.45, 0]} castShadow>
+        <boxGeometry args={[1.0, 0.1, 0.5]} />
+        <meshStandardMaterial color="#8B4513" roughness={0.85} />
+      </mesh>
+      {/* Back support posts */}
+      <mesh position={[-0.4, 0.7, -0.2]} castShadow>
+        <boxGeometry args={[0.08, 0.6, 0.08]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.4, 0.7, -0.2]} castShadow>
+        <boxGeometry args={[0.08, 0.6, 0.08]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      {/* Back rest */}
+      <mesh position={[0, 0.9, -0.2]} castShadow>
+        <boxGeometry args={[1.0, 0.5, 0.08]} />
+        <meshStandardMaterial color="#8B4513" roughness={0.85} />
+      </mesh>
+    </group>
+  )
+}
+
+const Sign = ({ position }) => {
+  return (
+    <group position={position}>
+      {/* Post */}
+      <mesh position={[0, 0.6, 0]} castShadow>
+        <boxGeometry args={[0.1, 1.2, 0.1]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.9} />
+      </mesh>
+      {/* Sign board */}
+      <mesh position={[0, 1.0, 0]} castShadow rotation={[0, 0, 0]}>
+        <boxGeometry args={[0.8, 0.4, 0.05]} />
+        <meshStandardMaterial color="#D2691E" roughness={0.8} />
+      </mesh>
+      {/* Sign border */}
+      <mesh position={[0, 1.0, 0.03]} castShadow>
+        <boxGeometry args={[0.75, 0.35, 0.02]} />
+        <meshStandardMaterial color="#8B4513" roughness={0.85} />
       </mesh>
     </group>
   )

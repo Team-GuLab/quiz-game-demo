@@ -13,6 +13,24 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false }) 
   const targetPos = useRef({ x: 0, z: 0 })
   const moveProgress = useRef(1)
 
+  // Robot metal color - different shades based on original color
+  const getMetalColor = () => {
+    if (isPlayer) return color
+
+    // Convert original color to different metal shades
+    const colorMap = {
+      '#FF6B6B': '#B8B8B8', // Light gray
+      '#4ECDC4': '#909090', // Medium gray
+      '#45B7D1': '#A8A8A8', // Medium-light gray
+      '#FFA07A': '#C0C0C0', // Bright gray
+      '#98D8C8': '#888888', // Dark gray
+    }
+
+    return colorMap[color] || '#A0A0A0'
+  }
+
+  const metalColor = getMetalColor()
+
   const JUMP_DURATION = 0.2
   const JUMP_HEIGHT = 0.6
 
@@ -113,46 +131,136 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false }) 
 
   return (
     <group ref={groupRef}>
+      {/* Head */}
       <mesh position={[0, 1.2, 0]} castShadow>
         <boxGeometry args={[0.6, 0.6, 0.6]} />
-        <meshStandardMaterial color="#FFD93D" />
+        <meshStandardMaterial
+          color={!isPlayer ? metalColor : "#FFD93D"}
+          metalness={!isPlayer ? 0.8 : 0}
+          roughness={!isPlayer ? 0.2 : 1}
+        />
       </mesh>
 
-      <mesh position={[-0.15, 1.25, 0.31]} castShadow>
-        <boxGeometry args={[0.1, 0.15, 0.02]} />
-        <meshStandardMaterial color="#000000" />
-      </mesh>
-      <mesh position={[0.15, 1.25, 0.31]} castShadow>
-        <boxGeometry args={[0.1, 0.15, 0.02]} />
-        <meshStandardMaterial color="#000000" />
-      </mesh>
+      {/* Eyes - Different for robot */}
+      {!isPlayer ? (
+        <>
+          {/* Robot LED Eyes - Cute style */}
+          <mesh position={[-0.15, 1.25, 0.31]} castShadow>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshStandardMaterial
+              color="#FFD700"
+              emissive="#FFD700"
+              emissiveIntensity={0.5}
+            />
+          </mesh>
+          <mesh position={[0.15, 1.25, 0.31]} castShadow>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshStandardMaterial
+              color="#FFD700"
+              emissive="#FFD700"
+              emissiveIntensity={0.5}
+            />
+          </mesh>
+          {/* Cute smile */}
+          <mesh position={[0, 1.1, 0.31]} castShadow>
+            <boxGeometry args={[0.25, 0.04, 0.02]} />
+            <meshStandardMaterial color="#333333" />
+          </mesh>
+        </>
+      ) : (
+        <>
+          {/* Player Eyes */}
+          <mesh position={[-0.15, 1.25, 0.31]} castShadow>
+            <boxGeometry args={[0.1, 0.15, 0.02]} />
+            <meshStandardMaterial color="#000000" />
+          </mesh>
+          <mesh position={[0.15, 1.25, 0.31]} castShadow>
+            <boxGeometry args={[0.1, 0.15, 0.02]} />
+            <meshStandardMaterial color="#000000" />
+          </mesh>
+        </>
+      )}
 
+      {/* Robot Antenna - Only for AI */}
+      {!isPlayer && (
+        <group>
+          {/* Antenna Base */}
+          <mesh position={[0, 1.55, 0]} castShadow>
+            <cylinderGeometry args={[0.05, 0.05, 0.15, 8]} />
+            <meshStandardMaterial color="#888888" metalness={0.8} roughness={0.2} />
+          </mesh>
+          {/* Antenna Ball - Cute color */}
+          <mesh position={[0, 1.7, 0]} castShadow>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshStandardMaterial
+              color="#FFA500"
+              emissive="#FFA500"
+              emissiveIntensity={0.4}
+              metalness={0.5}
+            />
+          </mesh>
+        </group>
+      )}
+
+      {/* Body */}
       <mesh ref={bodyRef} position={[0, 0.6, 0]} castShadow>
         <boxGeometry args={[0.6, 0.7, 0.5]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial
+          color={metalColor}
+          metalness={!isPlayer ? 0.6 : 0}
+          roughness={!isPlayer ? 0.3 : 1}
+        />
       </mesh>
 
+      {/* Robot Panel - Only for AI */}
+      {!isPlayer && (
+        <mesh position={[0, 0.6, 0.26]} castShadow>
+          <boxGeometry args={[0.3, 0.3, 0.02]} />
+          <meshStandardMaterial color="#222222" metalness={0.9} roughness={0.1} />
+        </mesh>
+      )}
+
+      {/* Left Arm */}
       <mesh position={[-0.4, 0.7, 0]} castShadow>
         <boxGeometry args={[0.15, 0.5, 0.15]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial
+          color={metalColor}
+          metalness={!isPlayer ? 0.6 : 0}
+          roughness={!isPlayer ? 0.3 : 1}
+        />
       </mesh>
 
+      {/* Right Arm */}
       <mesh position={[0.4, 0.7, 0]} castShadow>
         <boxGeometry args={[0.15, 0.5, 0.15]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial
+          color={metalColor}
+          metalness={!isPlayer ? 0.6 : 0}
+          roughness={!isPlayer ? 0.3 : 1}
+        />
       </mesh>
 
+      {/* Left Leg */}
       <group ref={legLeftRef} position={[-0.15, 0.2, 0]}>
         <mesh position={[0, -0.1, 0]} castShadow>
           <boxGeometry args={[0.2, 0.4, 0.2]} />
-          <meshStandardMaterial color={color} />
+          <meshStandardMaterial
+            color={metalColor}
+            metalness={!isPlayer ? 0.6 : 0}
+            roughness={!isPlayer ? 0.3 : 1}
+          />
         </mesh>
       </group>
 
+      {/* Right Leg */}
       <group ref={legRightRef} position={[0.15, 0.2, 0]}>
         <mesh position={[0, -0.1, 0]} castShadow>
           <boxGeometry args={[0.2, 0.4, 0.2]} />
-          <meshStandardMaterial color={color} />
+          <meshStandardMaterial
+            color={metalColor}
+            metalness={!isPlayer ? 0.6 : 0}
+            roughness={!isPlayer ? 0.3 : 1}
+          />
         </mesh>
       </group>
 
