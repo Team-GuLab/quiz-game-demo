@@ -44,7 +44,6 @@ const GAME_STATES = {
 
 const TIME_PER_QUESTION = 10
 const GRID_SIZE = 8
-const INITIAL_GRID = { x: 3, y: 3 }
 const NUM_AI_PLAYERS = 5
 const AREA_GRID_CENTERS = [
   { x: 1, y: 1 },
