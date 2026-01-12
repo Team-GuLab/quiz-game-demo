@@ -3,11 +3,13 @@ import { Environment, Sky, Text } from '@react-three/drei'
 import * as THREE from 'three'
 import Character3D from './Character3D'
 import SpikeField from './Spike'
+import { GAME_STATES } from '../App'
 
 const GameScene3D = ({
   characterPosition,
   currentArea,
   onAreaClick,
+  gameState,
   showCorrectAnswer,
   correctAnswer,
   question,
@@ -155,7 +157,7 @@ const GameScene3D = ({
         />
       ))}
 
-      {showCorrectAnswer && areas.map((area) => {
+      {showCorrectAnswer && gameState === GAME_STATES.RESULT && areas.map((area) => {
         if (area.index === correctAnswer) return null
         return (
           <SpikeField
@@ -246,12 +248,6 @@ const Tree = ({ position }) => {
     metalness: 0.2,
   })
 
-  const leafMaterial = new THREE.MeshStandardMaterial({
-    color: 0xff9bc7,
-    roughness: 0.4,
-    metalness: 0.1,
-  })
-
   const createBranch = (startX, startY, startZ, endX, endY, endZ, radius) => {
     const start = new THREE.Vector3(startX, startY, startZ)
     const end = new THREE.Vector3(endX, endY, endZ)
@@ -271,29 +267,6 @@ const Tree = ({ position }) => {
     branch.setRotationFromQuaternion(quaternion)
 
     return branch
-  }
-
-  const createLeafBlock = (x, y, z, scale = 1) => {
-    const geometry = new THREE.BoxGeometry(1.5 * scale, 1 * scale, 1.5 * scale)
-    const leaf = new THREE.Mesh(geometry, leafMaterial)
-    leaf.position.set(x, y, z)
-    leaf.rotation.y = Math.random() * Math.PI * 0.3
-
-    const detail1 = new THREE.Mesh(
-      new THREE.BoxGeometry(1.5 * scale, 0.15 * scale, 1.5 * scale),
-      new THREE.MeshStandardMaterial({ color: 0xffb5d5, roughness: 0.4 })
-    )
-    detail1.position.y = -0.3 * scale
-    leaf.add(detail1)
-
-    const detail2 = new THREE.Mesh(
-      new THREE.BoxGeometry(1.5 * scale, 0.15 * scale, 1.5 * scale),
-      new THREE.MeshStandardMaterial({ color: 0xff6fa8, roughness: 0.4 })
-    )
-    detail2.position.y = -0.45 * scale
-    leaf.add(detail2)
-
-    return leaf
   }
 
   return (
@@ -481,6 +454,14 @@ const Bench = ({ position }) => {
         <boxGeometry args={[1.0, 0.5, 0.08]} />
         <meshStandardMaterial color="#8B4513" roughness={0.85} />
       </mesh>
+      <mesh position={[0, 0.8, -0.199]} castShadow>
+        <boxGeometry args={[1.0, 0.1, 0.08]} />
+        <meshStandardMaterial color="#783b10" roughness={0.85} />
+      </mesh>
+      <mesh position={[0, 1.0, -0.199]} castShadow>
+        <boxGeometry args={[1.0, 0.1, 0.08]} />
+        <meshStandardMaterial color="#783b10" roughness={0.85} />
+      </mesh>
     </group>
   )
 }
@@ -489,8 +470,8 @@ const Sign = ({ position }) => {
   return (
     <group position={position}>
       {/* Post */}
-      <mesh position={[0, 0.6, 0]} castShadow>
-        <boxGeometry args={[0.1, 1.2, 0.1]} />
+      <mesh position={[0, 0.0, 0]} castShadow>
+        <boxGeometry args={[0.1, 1.7, 0.1]} />
         <meshStandardMaterial color="#6B4423" roughness={0.9} />
       </mesh>
       {/* Sign board */}

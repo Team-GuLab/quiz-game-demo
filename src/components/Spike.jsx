@@ -9,7 +9,7 @@ const Spike = ({ position, delay = 0 }) => {
 
   const RISE_SPEED = 9 // 위로 올라가는 속도
   const FALL_SPEED = 4.5 // 아래로 내려가는 속도
-  const HOLD_TIME = 0.1 // 정지 시간
+  const HOLD_TIME = 0.5 // 정지 시간
   const MIN_HEIGHT = -1.5 // 최소 높이 (바닥 아래)
   const MAX_HEIGHT = 0 // 최대 높이 (바닥)
 
@@ -59,29 +59,29 @@ const Spike = ({ position, delay = 0 }) => {
       <mesh castShadow position={[0, 0.1, 0]}>
         <cylinderGeometry args={[0.08, 0.08, 0.2, 8]} />
         <meshStandardMaterial
-          color="#555555"
-          metalness={0.7}
-          roughness={0.3}
+          color="#3a3a3a"
+          metalness={0.8}
+          roughness={0.2}
         />
       </mesh>
       <mesh castShadow position={[0, 0.6, 0]}>
         <coneGeometry args={[0.12, 1.2, 8]} />
         <meshStandardMaterial
-          color="#666666"
-          metalness={0.9}
-          roughness={0.2}
-          emissive="#ff3030"
-          emissiveIntensity={0.1}
+          color="#414141"
+          metalness={1.0}
+          roughness={0.15}
+          emissive="#c9c9c9"
+          emissiveIntensity={0.08}
         />
       </mesh>
       <mesh castShadow position={[0, 1.1, 0]}>
         <coneGeometry args={[0.04, 0.4, 8]} />
         <meshStandardMaterial
-          color="#333333"
+          color="#2a2a2a"
           metalness={1.0}
           roughness={0.1}
-          emissive="#ff0000"
-          emissiveIntensity={0.2}
+          emissive="#c5c5c5"
+          emissiveIntensity={0.15}
         />
       </mesh>
     </group>

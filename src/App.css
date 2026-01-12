@@ -22,7 +22,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
@@ -39,7 +39,7 @@ body {
 .app-3d-fullscreen {
   max-width: 100%;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   margin: 0;
   overflow: hidden;
   display: flex;

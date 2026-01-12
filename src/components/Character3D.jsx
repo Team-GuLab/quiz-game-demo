@@ -161,7 +161,7 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
       )}
 
       {/* Head */}
-      <mesh position={[0, 1.2, 0]} castShadow>
+      <mesh position={[0, 1.25, 0]} castShadow>
         <boxGeometry args={[0.6, 0.6, 0.6]} />
         <meshStandardMaterial
           color={!isPlayer ? metalColor : "#FFD93D"}

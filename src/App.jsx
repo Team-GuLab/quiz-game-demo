@@ -35,7 +35,7 @@ const QUESTIONS = [
   }
 ]
 
-const GAME_STATES = {
+export const GAME_STATES = {
   READY: 'ready',
   PLAYING: 'playing',
   RESULT: 'result',
@@ -44,7 +44,7 @@ const GAME_STATES = {
 
 const TIME_PER_QUESTION = 10
 const GRID_SIZE = 8
-const NUM_AI_PLAYERS = 4
+const NUM_AI_PLAYERS = 5
 const AREA_GRID_CENTERS = [
   { x: 1, y: 1 },
   { x: 5, y: 1 },
@@ -57,7 +57,8 @@ const NICKNAMES = [
   '희망찬 로봇',
   '전설의 로봇',
   '신비로운 로봇',
-  '찬란한 로봇'
+  '찬란한 로봇',
+  '센치한 로봇'
 ]
 
 const getRandomSpawnPosition = () => {
@@ -117,15 +118,15 @@ function App() {
       setCurrentQuestionIndex(prev => prev + 1)
       setTimeLeft(TIME_PER_QUESTION)
       setSelectedAnswer(null)
-      setShowCorrectAnswer(false)
       setIsDead(false)
       setTargetGridPosition(null)
       setAiPlayers(prev => prev.map(player => ({
         ...player,
-        gridPosition: player.isAlive ? getRandomSpawnPosition() : player.gridPosition,
         nextMoveTime: player.isAlive ? Date.now() + getRandomMoveInterval() : player.nextMoveTime
       })))
       setGameState(GAME_STATES.PLAYING)
+      // 새 질문이 나타난 후 가시 표시 정리
+      setTimeout(() => setShowCorrectAnswer(false), 100)
     } else {
       setGameState(GAME_STATES.GAME_OVER)
     }
@@ -409,7 +410,7 @@ function App() {
           playerName={NICKNAMES[0]}
         />
 
-        {gameState === GAME_STATES.PLAYING && (
+        {(gameState === GAME_STATES.PLAYING || gameState === GAME_STATES.RESULT) && (
           <>
             {/* Question Text */}
             <div className="quiz-question">
@@ -425,11 +426,13 @@ function App() {
             </div>
 
             {/* Top Right - Time */}
-            <div className="quiz-info quiz-info-right">
-              <div className="quiz-time" style={{ color: timeLeft < 3 ? '#ff4757' : '#2ed573' }}>
-                {Math.ceil(timeLeft)}s
+            {gameState === GAME_STATES.PLAYING && (
+              <div className="quiz-info quiz-info-right">
+                <div className="quiz-time" style={{ color: timeLeft < 3 ? '#ff4757' : '#2ed573' }}>
+                  {Math.ceil(timeLeft)}s
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
       </div>
