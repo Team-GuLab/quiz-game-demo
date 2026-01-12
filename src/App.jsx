@@ -383,24 +383,50 @@ function App() {
 
   return (
     <div className="app app-3d-fullscreen">
-      <GameScene3D
-        characterPosition={characterPosition}
-        currentArea={currentArea}
-        onAreaClick={handleAreaClick}
-        gameState={gameState}
-        showCorrectAnswer={showCorrectAnswer}
-        correctAnswer={currentQuestion.correctAnswer}
-        selectedAnswer={selectedAnswer}
-        question={currentQuestion.question}
-        options={currentQuestion.options}
-        score={score}
-        timeLeft={timeLeft}
-        totalTime={TIME_PER_QUESTION}
-        questionIndex={currentQuestionIndex}
-        totalQuestions={QUESTIONS.length}
-        isDead={isDead}
-        aiPlayers={aiPlayers}
-      />
+      <div className="game-canvas-container">
+        <GameScene3D
+          characterPosition={characterPosition}
+          currentArea={currentArea}
+          onAreaClick={handleAreaClick}
+          gameState={gameState}
+          showCorrectAnswer={showCorrectAnswer}
+          correctAnswer={currentQuestion.correctAnswer}
+          selectedAnswer={selectedAnswer}
+          question={currentQuestion.question}
+          options={currentQuestion.options}
+          score={score}
+          timeLeft={timeLeft}
+          totalTime={TIME_PER_QUESTION}
+          questionIndex={currentQuestionIndex}
+          totalQuestions={QUESTIONS.length}
+          isDead={isDead}
+          aiPlayers={aiPlayers}
+        />
+
+        {gameState === GAME_STATES.PLAYING && (
+          <>
+            {/* Question Text */}
+            <div className="quiz-question">
+              {currentQuestion.question}
+            </div>
+
+            {/* Top Left - Question Progress */}
+            <div className="quiz-info quiz-info-left">
+              <div className="quiz-label">문제</div>
+              <div className="quiz-value">{currentQuestionIndex + 1}/{QUESTIONS.length}</div>
+              <div className="quiz-label" style={{ marginTop: '0.5rem' }}>점수</div>
+              <div className="quiz-score">{score}</div>
+            </div>
+
+            {/* Top Right - Time */}
+            <div className="quiz-info quiz-info-right">
+              <div className="quiz-time" style={{ color: timeLeft < 3 ? '#ff4757' : '#2ed573' }}>
+                {Math.ceil(timeLeft)}s
+              </div>
+            </div>
+          </>
+        )}
+      </div>
 
       {gameState === GAME_STATES.PLAYING && (
         <div className="submit-container">

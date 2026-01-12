@@ -46,7 +46,7 @@ const GameScene3D = ({
       camera={{ position: [0, 8, 8], fov: 60 }}
       style={{
         width: '100%',
-        height: '100vh',
+        height: '100%',
         background: 'linear-gradient(to bottom, #87CEEB, #E0F6FF)'
       }}
     >
@@ -66,75 +66,6 @@ const GameScene3D = ({
       <Sky sunPosition={[100, 20, 100]} />
       <Environment preset="sunset" />
 
-      <group position={[0, 2.2, -4]}>
-        <mesh castShadow>
-          <boxGeometry args={[10, 2, 0.3]} />
-          <meshStandardMaterial color="#1a1a2e" />
-        </mesh>
-        <Text
-          position={[0, 0, 0.2]}
-          fontSize={0.45}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-          maxWidth={9}
-          textAlign="center"
-          outlineWidth={0.04}
-          outlineColor="#000000"
-          fontWeight="bold"
-        >
-          {question}
-        </Text>
-      </group>
-
-      <group position={[-4.5, 4, -2]}>
-        <mesh castShadow>
-          <boxGeometry args={[2, 0.8, 0.2]} />
-          <meshStandardMaterial color="#6c5ce7" />
-        </mesh>
-        <Text
-          position={[0, 0.15, 0.15]}
-          fontSize={0.2}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {`문제 ${questionIndex + 1}/${totalQuestions}`}
-        </Text>
-        <Text
-          position={[0, -0.15, 0.15]}
-          fontSize={0.25}
-          color="#ffd93d"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {`${score}점`}
-        </Text>
-      </group>
-
-      <group position={[4.5, 4, -2]}>
-        <mesh castShadow>
-          <boxGeometry args={[2, 0.4, 0.2]} />
-          <meshStandardMaterial color="#2d2d44" />
-        </mesh>
-        <mesh castShadow position={[-1 + (timeLeft / totalTime) * 1, 0, 0.15]}>
-          <boxGeometry args={[(timeLeft / totalTime) * 2, 0.3, 0.05]} />
-          <meshStandardMaterial
-            color={timeLeft < 3 ? '#ff4757' : '#2ed573'}
-            emissive={timeLeft < 3 ? '#ff4757' : '#2ed573'}
-            emissiveIntensity={0.5}
-          />
-        </mesh>
-        <Text
-          position={[0, 0, 0.25]}
-          fontSize={0.18}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {Math.ceil(timeLeft)}s
-        </Text>
-      </group>
 
       <mesh receiveShadow position={[0, -0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[20, 20]} />
@@ -206,6 +137,7 @@ const GameScene3D = ({
         position={characterPosition}
         isDead={isDead}
         color="#6C5CE7"
+        isPlayer={true}
       />
 
       {aiPlayers.map((player) => (

@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const Character3D = ({ position, isDead, color = '#6C5CE7' }) => {
+const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false }) => {
   const groupRef = useRef()
   const bodyRef = useRef()
   const legLeftRef = useRef()
@@ -155,6 +155,22 @@ const Character3D = ({ position, isDead, color = '#6C5CE7' }) => {
           <meshStandardMaterial color={color} />
         </mesh>
       </group>
+
+      {isPlayer && (
+        <group position={[0, 2.3, 0]}>
+          {/* Arrow shaft */}
+          <mesh position={[0, 0.3, 0]} castShadow>
+            <boxGeometry args={[0.1, 0.6, 0.1]} />
+            <meshStandardMaterial color="#FF4444" />
+          </mesh>
+
+          {/* Arrow head - triangle pointing down */}
+          <mesh position={[0, -0.15, 0]} rotation={[Math.PI, 0, 0]} castShadow>
+            <coneGeometry args={[0.25, 0.35, 4]} />
+            <meshStandardMaterial color="#FF4444" />
+          </mesh>
+        </group>
+      )}
     </group>
   )
 }
