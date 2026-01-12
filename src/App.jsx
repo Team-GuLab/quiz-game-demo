@@ -111,7 +111,6 @@ function App() {
       setSelectedAnswer(null)
       setShowCorrectAnswer(false)
       setIsDead(false)
-      setGridPosition(getRandomSpawnPosition())
       setTargetGridPosition(null)
       setAiPlayers(prev => prev.map(player => ({
         ...player,

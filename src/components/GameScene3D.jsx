@@ -162,6 +162,9 @@ const GameScene3D = ({
         )
       })}
 
+      {/* Minecraft-style Fence */}
+      <GameAreaFence />
+
       <Tree position={[-6, 0, -6]} />
       <Tree position={[7, 0, -6]} />
       <Tree position={[-6, 0, 6]} />
@@ -498,6 +501,124 @@ const Sign = ({ position }) => {
         <meshStandardMaterial color="#8B4513" roughness={0.85} />
       </mesh>
     </group>
+  )
+}
+
+const FencePost = ({ position }) => {
+  return (
+    <group position={position}>
+      {/* Vertical post */}
+      <mesh castShadow>
+        <boxGeometry args={[0.12, 0.8, 0.12]} />
+        <meshStandardMaterial color="#8B4513" roughness={0.9} />
+      </mesh>
+      {/* Top cap */}
+      <mesh position={[0, 0.42, 0]} castShadow>
+        <boxGeometry args={[0.14, 0.04, 0.14]} />
+        <meshStandardMaterial color="#6B4423" roughness={0.85} />
+      </mesh>
+    </group>
+  )
+}
+
+const FenceSection = ({ start, end }) => {
+  const midX = (start[0] + end[0]) / 2
+  const midZ = (start[2] + end[2]) / 2
+  const length = Math.sqrt(Math.pow(end[0] - start[0], 2) + Math.pow(end[2] - start[2], 2))
+  const angle = Math.atan2(end[0] - start[0], end[2] - start[2])
+
+  return (
+    <group position={[midX, 0.4, midZ]} rotation={[0, angle, 0]}>
+      {/* Upper horizontal rail */}
+      <mesh castShadow position={[0, 0.12, 0]}>
+        <boxGeometry args={[0.08, 0.08, length]} />
+        <meshStandardMaterial color="#A0522D" roughness={0.85} />
+      </mesh>
+      {/* Lower horizontal rail */}
+      <mesh castShadow position={[0, -0.12, 0]}>
+        <boxGeometry args={[0.08, 0.08, length]} />
+        <meshStandardMaterial color="#A0522D" roughness={0.85} />
+      </mesh>
+    </group>
+  )
+}
+
+const GameAreaFence = () => {
+  const fenceDistance = 4.2
+  const spacing = 1.4
+  const posts = []
+  const sections = []
+
+  // North side
+  for (let x = -fenceDistance; x <= fenceDistance; x += spacing) {
+    posts.push(<FencePost key={`n-${x}`} position={[x, 0, -fenceDistance]} />)
+  }
+
+  // South side
+  for (let x = -fenceDistance; x <= fenceDistance; x += spacing) {
+    posts.push(<FencePost key={`s-${x}`} position={[x, 0, fenceDistance]} />)
+  }
+
+  // West side (excluding corners to avoid duplicate posts)
+  for (let z = -fenceDistance + spacing; z < fenceDistance; z += spacing) {
+    posts.push(<FencePost key={`w-${z}`} position={[-fenceDistance, 0, z]} />)
+  }
+
+  // East side (excluding corners to avoid duplicate posts)
+  for (let z = -fenceDistance + spacing; z < fenceDistance; z += spacing) {
+    posts.push(<FencePost key={`e-${z}`} position={[fenceDistance, 0, z]} />)
+  }
+
+  // Fence sections
+  // North side
+  for (let x = -fenceDistance; x < fenceDistance; x += spacing) {
+    sections.push(
+      <FenceSection
+        key={`ns-${x}`}
+        start={[x, 0, -fenceDistance]}
+        end={[Math.min(x + spacing, fenceDistance), 0, -fenceDistance]}
+      />
+    )
+  }
+
+  // South side
+  for (let x = -fenceDistance; x < fenceDistance; x += spacing) {
+    sections.push(
+      <FenceSection
+        key={`ss-${x}`}
+        start={[x, 0, fenceDistance]}
+        end={[Math.min(x + spacing, fenceDistance), 0, fenceDistance]}
+      />
+    )
+  }
+
+  // West side
+  for (let z = -fenceDistance; z < fenceDistance; z += spacing) {
+    sections.push(
+      <FenceSection
+        key={`ws-${z}`}
+        start={[-fenceDistance, 0, z]}
+        end={[-fenceDistance, 0, Math.min(z + spacing, fenceDistance)]}
+      />
+    )
+  }
+
+  // East side
+  for (let z = -fenceDistance; z < fenceDistance; z += spacing) {
+    sections.push(
+      <FenceSection
+        key={`es-${z}`}
+        start={[fenceDistance, 0, z]}
+        end={[fenceDistance, 0, Math.min(z + spacing, fenceDistance)]}
+      />
+    )
+  }
+
+  return (
+    <>
+      {posts}
+      {sections}
+    </>
   )
 }
 

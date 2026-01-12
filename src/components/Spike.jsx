@@ -53,14 +53,14 @@ const Spike = ({ position, delay = 0 }) => {
 
 const SpikeField = ({ areaPosition }) => {
   const spikes = []
-  const gridSize = 4
-  const spacing = 0.6
+  const gridSize = 7
+  const spacing = 0.55
 
   for (let x = 0; x < gridSize; x++) {
     for (let z = 0; z < gridSize; z++) {
-      const posX = areaPosition[0] - 1 + x * spacing
-      const posZ = areaPosition[2] - 1 + z * spacing
-      const delay = (x + z) * 0.05
+      const posX = areaPosition[0] - 1.65 + x * spacing
+      const posZ = areaPosition[2] - 1.65 + z * spacing
+      const delay = (x + z) * 0.04
       spikes.push(
         <Spike
           key={`${x}-${z}`}
