@@ -245,23 +245,107 @@ const GameScene3D = ({
 }
 
 const Tree = ({ position }) => {
+  const trunkMaterial = new THREE.MeshStandardMaterial({
+    color: 0x4a2511,
+    roughness: 0.8,
+    metalness: 0.2,
+  })
+
+  const leafMaterial = new THREE.MeshStandardMaterial({
+    color: 0xff9bc7,
+    roughness: 0.4,
+    metalness: 0.1,
+  })
+
+  const createBranch = (startX, startY, startZ, endX, endY, endZ, radius) => {
+    const start = new THREE.Vector3(startX, startY, startZ)
+    const end = new THREE.Vector3(endX, endY, endZ)
+    const direction = new THREE.Vector3().subVectors(end, start)
+    const length = direction.length()
+
+    const branchGeometry = new THREE.CylinderGeometry(radius, radius * 1.2, length, 6)
+    const branch = new THREE.Mesh(branchGeometry, trunkMaterial)
+
+    branch.position.copy(start.clone().add(direction.clone().multiplyScalar(0.5)))
+
+    const axis = new THREE.Vector3(0, 1, 0)
+    const quaternion = new THREE.Quaternion().setFromUnitVectors(
+      axis,
+      direction.clone().normalize()
+    )
+    branch.setRotationFromQuaternion(quaternion)
+
+    return branch
+  }
+
+  const createLeafBlock = (x, y, z, scale = 1) => {
+    const geometry = new THREE.BoxGeometry(1.5 * scale, 1 * scale, 1.5 * scale)
+    const leaf = new THREE.Mesh(geometry, leafMaterial)
+    leaf.position.set(x, y, z)
+    leaf.rotation.y = Math.random() * Math.PI * 0.3
+
+    const detail1 = new THREE.Mesh(
+      new THREE.BoxGeometry(1.5 * scale, 0.15 * scale, 1.5 * scale),
+      new THREE.MeshStandardMaterial({ color: 0xffb5d5, roughness: 0.4 })
+    )
+    detail1.position.y = -0.3 * scale
+    leaf.add(detail1)
+
+    const detail2 = new THREE.Mesh(
+      new THREE.BoxGeometry(1.5 * scale, 0.15 * scale, 1.5 * scale),
+      new THREE.MeshStandardMaterial({ color: 0xff6fa8, roughness: 0.4 })
+    )
+    detail2.position.y = -0.45 * scale
+    leaf.add(detail2)
+
+    return leaf
+  }
+
   return (
     <group position={position}>
-      <mesh castShadow position={[0, 0.5, 0]}>
-        <cylinderGeometry args={[0.2, 0.3, 1, 8]} />
-        <meshStandardMaterial color="#8B4513" />
+      {/* Trunk */}
+      <mesh castShadow position={[0, 1, 0]}>
+        <cylinderGeometry args={[0.15, 0.175, 2, 8]} />
+        <meshStandardMaterial
+          color={0x4a2511}
+          roughness={0.8}
+          metalness={0.2}
+        />
       </mesh>
-      <mesh castShadow position={[0, 1.3, 0]}>
-        <coneGeometry args={[0.8, 1, 8]} />
-        <meshStandardMaterial color="#2D5016" />
+
+      {/* Branch 1 - Center top */}
+      <primitive object={createBranch(0, 2, 0, -0.1, 2.75, 0, 0.1)} />
+      <mesh castShadow position={[-0.1, 3.25, 0]}>
+        <boxGeometry args={[1.05, 0.7, 1.05]} />
+        <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
-      <mesh castShadow position={[0, 1.8, 0]}>
-        <coneGeometry args={[0.7, 0.9, 8]} />
-        <meshStandardMaterial color="#3A5F1B" />
+
+      {/* Branch 2 - Right */}
+      <primitive object={createBranch(0, 1.9, 0, 1.25, 2.5, 0.25, 0.09)} />
+      <mesh castShadow position={[1.25, 3, 0.25]}>
+        <boxGeometry args={[0.975, 0.65, 0.975]} />
+        <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
-      <mesh castShadow position={[0, 2.2, 0]}>
-        <coneGeometry args={[0.5, 0.7, 8]} />
-        <meshStandardMaterial color="#4A7023" />
+
+      {/* Branch 3 - Left */}
+      <primitive object={createBranch(0, 1.75, 0, -1.1, 2.25, -0.15, 0.09)} />
+      <mesh castShadow position={[-1.1, 2.75, -0.15]}>
+        <boxGeometry args={[0.9, 0.6, 0.9]} />
+        <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
+      </mesh>
+
+      {/* Branch 4 - Bottom left */}
+      <primitive object={createBranch(0, 1.25, 0, -0.75, 1.6, 0.4, 0.075)} />
+      <mesh castShadow position={[-0.75, 2, 0.4]}>
+        <boxGeometry args={[0.675, 0.45, 0.675]} />
+        <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
+      </mesh>
+
+      {/* Branch 5 - Bottom right */}
+      <primitive object={createBranch(0, 1.4, 0, 0.9, 1.75, -0.25, 0.075)} />
+      <mesh castShadow position={[0.9, 2.15, -0.25]}>
+        <boxGeometry args={[0.6375, 0.425, 0.6375]} />
+        <meshStandardMaterial color={0xff9bc7} roughness={0.4} metalness={0.1} />
       </mesh>
     </group>
   )
