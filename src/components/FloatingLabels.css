@@ -1,0 +1,73 @@
+.floating-labels-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 85vh, 650px);
+  height: min(90vw, 85vh, 650px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.floating-label {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(1.25);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 45%;
+  transition: all 0.3s ease;
+}
+
+.floating-label.label-correct {
+  background: #58CC02;
+  color: white;
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(88, 204, 2, 0.4);
+}
+
+.floating-label.label-correct .label-number {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.floating-label.label-wrong {
+  background: #E5E5E5;
+  color: #999;
+  opacity: 0.7;
+}
+
+.floating-label.label-wrong .label-number {
+  background: #ccc;
+  color: #999;
+}
+
+.label-number {
+  background: #58CC02;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.label-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+  line-height: 1.3;
+}
+
+.floating-label.label-correct .label-text,
+.floating-label.label-wrong .label-text {
+  color: inherit;
+}

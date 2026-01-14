@@ -51,6 +51,7 @@ body {
   min-height: 0;
   width: 100%;
   position: relative;
+  background: #F5F7FA;
 }
 
 /* Quiz Overlay Elements */

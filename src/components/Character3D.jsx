@@ -135,9 +135,9 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
       {/* Nickname displayed above character */}
       {name && !isDead && (
         <Html
-          position={[0, 1.8, 0]}
+          position={[0, 1.6, 0]}
           center
-          distanceFactor={15}
+          distanceFactor={3}
           style={{
             pointerEvents: 'none',
             userSelect: 'none'
@@ -146,13 +146,13 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
           <div
             style={{
               color: isPlayer ? '#58CC02' : '#1F2937',
-              fontSize: isPlayer ? '14px' : '12px',
+              fontSize: '8px',
               fontWeight: '600',
               whiteSpace: 'nowrap',
               textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff',
               fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              padding: '2px 4px',
-              borderRadius: '4px'
+              padding: '1px 2px',
+              borderRadius: '2px'
             }}
           >
             {name}

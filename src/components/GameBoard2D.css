@@ -1,0 +1,39 @@
+.game-board-2d {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 85vh, 650px);
+  height: min(90vw, 85vh, 650px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  z-index: 1;
+}
+
+.board-area {
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.board-area:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.board-area.active {
+  box-shadow: 0 0 0 4px #FFB800;
+}
+
+.area-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.15);
+  user-select: none;
+}

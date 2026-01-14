@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import GameBoard2D from './components/GameBoard2D'
 import GameScene3D from './components/GameScene3D'
+import FloatingLabels from './components/FloatingLabels'
 
 const QUESTIONS = [
   {
@@ -390,26 +392,33 @@ function App() {
   return (
     <div className="app app-3d-fullscreen">
       <div className="game-canvas-container">
-        <GameScene3D
-          characterPosition={characterPosition}
+        {/* Layer 1: 2D 바닥 (z-index: 1) */}
+        <GameBoard2D
           currentArea={currentArea}
-          onAreaClick={handleAreaClick}
-          gameState={gameState}
           showCorrectAnswer={showCorrectAnswer}
           correctAnswer={currentQuestion.correctAnswer}
-          selectedAnswer={selectedAnswer}
-          question={currentQuestion.question}
-          options={currentQuestion.options}
-          score={score}
-          timeLeft={timeLeft}
-          totalTime={TIME_PER_QUESTION}
-          questionIndex={currentQuestionIndex}
-          totalQuestions={QUESTIONS.length}
+          onAreaClick={handleAreaClick}
+        />
+
+        {/* Layer 2: 3D 캐릭터 (z-index: 5) */}
+        <GameScene3D
+          gridPosition={gridPosition}
           isDead={isDead}
           aiPlayers={aiPlayers}
           playerName={NICKNAMES[0]}
+          gameState={gameState}
+          showCorrectAnswer={showCorrectAnswer}
+          correctAnswer={currentQuestion.correctAnswer}
         />
 
+        {/* Layer 3: 플로팅 라벨 (z-index: 10) */}
+        <FloatingLabels
+          options={currentQuestion.options}
+          showCorrectAnswer={showCorrectAnswer}
+          correctAnswer={currentQuestion.correctAnswer}
+        />
+
+        {/* Layer 4: UI 오버레이 (z-index: 50) */}
         {(gameState === GAME_STATES.PLAYING || gameState === GAME_STATES.RESULT) && (
           <>
             {/* Question Text */}
@@ -428,7 +437,7 @@ function App() {
             {/* Top Right - Time */}
             {gameState === GAME_STATES.PLAYING && (
               <div className="quiz-info quiz-info-right">
-                <div className="quiz-time" style={{ color: timeLeft < 3 ? '#ff4757' : '#2ed573' }}>
+                <div className="quiz-time" style={{ color: timeLeft < 3 ? '#ff4757' : '#58CC02' }}>
                   {Math.ceil(timeLeft)}s
                 </div>
               </div>
