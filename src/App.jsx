@@ -77,7 +77,7 @@ const generateAIPlayers = () => {
     name: NICKNAMES[i + 1], // AI players get nicknames 1-4
     gridPosition: getRandomSpawnPosition(),
     isAlive: true,
-    color: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A'][i],
+    color: ['#FFD3E0', '#A8E6CF', '#E0BBE4', '#FFDAB9', '#D4E4F7'][i],
     nextMoveTime: Date.now() + getRandomMoveInterval()
   }))
 }

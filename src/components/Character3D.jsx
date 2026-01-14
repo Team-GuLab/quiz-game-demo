@@ -14,20 +14,20 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
   const targetPos = useRef({ x: 0, z: 0 })
   const moveProgress = useRef(1)
 
-  // Robot metal color - different shades based on original color
+  // Robot color - pastel tones for AI
   const getMetalColor = () => {
     if (isPlayer) return color
 
-    // Convert original color to different metal shades
+    // Convert original color to pastel tones
     const colorMap = {
-      '#FF6B6B': '#B8B8B8', // Light gray
-      '#4ECDC4': '#909090', // Medium gray
-      '#45B7D1': '#A8A8A8', // Medium-light gray
-      '#FFA07A': '#C0C0C0', // Bright gray
-      '#98D8C8': '#888888', // Dark gray
+      '#FFD3E0': '#FFD3E0', // 핑크
+      '#A8E6CF': '#A8E6CF', // 민트
+      '#E0BBE4': '#E0BBE4', // 라벤더
+      '#FFDAB9': '#FFDAB9', // 피치
+      '#D4E4F7': '#D4E4F7', // 스카이블루
     }
 
-    return colorMap[color] || '#A0A0A0'
+    return colorMap[color] || color
   }
 
   const metalColor = getMetalColor()
@@ -135,9 +135,9 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
       {/* Nickname displayed above character */}
       {name && !isDead && (
         <Html
-          position={[0, 2.0, 0]}
+          position={[0, 1.8, 0]}
           center
-          distanceFactor={8}
+          distanceFactor={15}
           style={{
             pointerEvents: 'none',
             userSelect: 'none'
@@ -145,16 +145,14 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
         >
           <div
             style={{
-              color: isPlayer ? '#00FF41' : '#FFFFFF',
-              fontSize: isPlayer ? '32px' : '28px',
-              fontWeight: '700',
+              color: isPlayer ? '#58CC02' : '#1F2937',
+              fontSize: isPlayer ? '14px' : '12px',
+              fontWeight: '600',
               whiteSpace: 'nowrap',
-              textShadow: isPlayer
-                ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 4px rgba(0,0,0,0.8)'
-                : '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+              textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff',
               fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              padding: isPlayer ? '4px 8px' : '0',
-              borderRadius: isPlayer ? '4px' : '0'
+              padding: '2px 4px',
+              borderRadius: '4px'
             }}
           >
             {name}
@@ -166,9 +164,9 @@ const Character3D = ({ position, isDead, color = '#6C5CE7', isPlayer = false, na
       <mesh position={[0, 1.25, 0]} castShadow>
         <boxGeometry args={[0.6, 0.6, 0.6]} />
         <meshStandardMaterial
-          color={!isPlayer ? metalColor : "#FFD93D"}
-          metalness={!isPlayer ? 0.8 : 0}
-          roughness={!isPlayer ? 0.2 : 1}
+          color={!isPlayer ? metalColor : "#58CC02"}
+          metalness={!isPlayer ? 0.3 : 0}
+          roughness={!isPlayer ? 0.5 : 1}
         />
       </mesh>
 
