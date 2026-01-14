@@ -40,12 +40,13 @@ const GameScene3D = ({
 }) => {
   const playerPos = gridToPercent(gridPosition.x, gridPosition.y)
 
-  // 스파이크 영역 위치 (4개 영역)
+  // 스파이크 영역 위치 (4개 영역 - 2D 보드와 동기화)
+  // 캐릭터 좌표: -4 ~ 4 범위, 각 영역 중심은 ±2
   const spikeAreas = [
-    { index: 0, x: -1, z: -1 },
-    { index: 1, x: 1, z: -1 },
-    { index: 2, x: -1, z: 1 },
-    { index: 3, x: 1, z: 1 },
+    { index: 0, x: -2, z: -2 },  // 좌상단
+    { index: 1, x: 2, z: -2 },   // 우상단
+    { index: 2, x: -2, z: 2 },   // 좌하단
+    { index: 3, x: 2, z: 2 },    // 우하단
   ]
 
   return (
