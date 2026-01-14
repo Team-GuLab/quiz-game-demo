@@ -65,12 +65,29 @@ const GameScene3D = ({
       gl={{ alpha: true }}
     >
       <TopDownCamera />
+
+      {/* 그림자만 받는 투명 바닥 */}
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, 0, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[20, 20]} />
+        <shadowMaterial transparent opacity={0.3} />
+      </mesh>
+
       {/* 조명 */}
       <ambientLight intensity={1.0} />
       <directionalLight
-        position={[2, 8, 2]}
-        intensity={0.8}
+        position={[3, 10, 3]}
+        intensity={1}
         castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
       />
 
       {/* 플레이어 캐릭터 */}
