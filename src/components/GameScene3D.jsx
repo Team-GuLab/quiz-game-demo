@@ -19,8 +19,8 @@ const TopDownCamera = () => {
   const { camera } = useThree()
 
   useEffect(() => {
-    camera.position.set(0, 15, 0.5) // 훨씬 더 높이 올림
-    camera.fov = 95 // 매우 넓은 시야각 (휴대폰 대응)
+    camera.position.set(0, 13, 0.5) // 더 가까이
+    camera.fov = 75 // 넓은 시야각
     camera.lookAt(0, 0, 0)
     camera.up.set(0, 0, -1)
     camera.updateProjectionMatrix()
@@ -52,7 +52,7 @@ const GameScene3D = ({
   return (
     <Canvas
       shadows
-      camera={{ fov: 95, near: 0.1, far: 100, position: [0, 15, 0.5] }}
+      camera={{ fov: 75, near: 0.1, far: 100, position: [0, 6, 0.5] }}
       style={{
         position: 'absolute',
         top: 0,
