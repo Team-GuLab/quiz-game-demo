@@ -191,9 +191,9 @@ function App() {
     }
   }
 
-  const handleAreaClick = (index) => {
+  const handleGridClick = (gridPos) => {
     if (gameState !== GAME_STATES.PLAYING) return
-    setTargetGridPosition(AREA_GRID_CENTERS[index])
+    setTargetGridPosition(gridPos)
   }
 
   const startGame = () => {
@@ -396,7 +396,7 @@ function App() {
           currentArea={currentArea}
           showCorrectAnswer={showCorrectAnswer}
           correctAnswer={currentQuestion.correctAnswer}
-          onAreaClick={handleAreaClick}
+          onGridClick={handleGridClick}
           options={currentQuestion.options}
         />
 

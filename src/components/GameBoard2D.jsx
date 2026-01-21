@@ -1,6 +1,8 @@
 import './GameBoard2D.css'
 
-const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClick, options }) => {
+const GRID_SIZE = 8
+
+const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onGridClick, options }) => {
   const getAreaColor = (index) => {
     const colors = ['#A8E6CF', '#FFD3E0', '#FFD3E0', '#A8E6CF']
 
@@ -20,6 +22,43 @@ const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClic
       return 'option-wrong'
     }
     return ''
+  }
+
+  // 클릭 위치를 8x8 그리드 좌표로 변환
+  const handleBoardClick = (e, areaIndex) => {
+    if (!onGridClick) return
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const clickX = e.clientX - rect.left
+    const clickY = e.clientY - rect.top
+
+    // 영역 내부 상대 좌표 (0-1 범위)
+    const relativeX = clickX / rect.width
+    const relativeY = clickY / rect.height
+
+    // 8x8 그리드로 변환
+    // 각 영역은 4x4 그리드를 차지
+    let gridX, gridY
+
+    if (areaIndex === 0) { // 좌상단
+      gridX = Math.floor(relativeX * 4)
+      gridY = Math.floor(relativeY * 4)
+    } else if (areaIndex === 1) { // 우상단
+      gridX = 4 + Math.floor(relativeX * 4)
+      gridY = Math.floor(relativeY * 4)
+    } else if (areaIndex === 2) { // 좌하단
+      gridX = Math.floor(relativeX * 4)
+      gridY = 4 + Math.floor(relativeY * 4)
+    } else { // 우하단 (areaIndex === 3)
+      gridX = 4 + Math.floor(relativeX * 4)
+      gridY = 4 + Math.floor(relativeY * 4)
+    }
+
+    // 범위 체크
+    gridX = Math.max(0, Math.min(GRID_SIZE - 1, gridX))
+    gridY = Math.max(0, Math.min(GRID_SIZE - 1, gridY))
+
+    onGridClick({ x: gridX, y: gridY })
   }
 
   const areas = [
@@ -45,7 +84,7 @@ const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClic
             key={area.index}
             className={`board-area ${currentArea === area.index ? 'active' : ''}`}
             style={{ backgroundColor: getAreaColor(area.index) }}
-            onClick={() => onAreaClick && onAreaClick(area.index)}
+            onClick={(e) => handleBoardClick(e, area.index)}
           >
             <span className="area-number">{area.label}</span>
           </div>
