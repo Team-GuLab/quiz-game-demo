@@ -414,24 +414,17 @@ function App() {
         {/* Layer 4: UI 오버레이 (z-index: 50) */}
         {(gameState === GAME_STATES.PLAYING || gameState === GAME_STATES.RESULT) && (
           <>
-            {/* Question Text */}
-            <div className="quiz-question">
-              {currentQuestion.question}
+            {/* Question Box - 문제 번호와 질문 통합 */}
+            <div className="quiz-question-box">
+              <div className="question-progress">{currentQuestionIndex + 1}/{QUESTIONS.length}</div>
+              <div className="question-text">{currentQuestion.question}</div>
             </div>
 
-            {/* Top Left - Question Progress */}
-            <div className="quiz-info quiz-info-left">
-              <div className="quiz-label">문제</div>
-              <div className="quiz-value">{currentQuestionIndex + 1}/{QUESTIONS.length}</div>
-              <div className="quiz-label" style={{ marginTop: '0.5rem' }}>점수</div>
-              <div className="quiz-score">{score}</div>
-            </div>
-
-            {/* Top Right - Time */}
+            {/* Center Top - Time */}
             {gameState === GAME_STATES.PLAYING && (
-              <div className="quiz-info quiz-info-right">
-                <div className="quiz-time" style={{ color: timeLeft < 3 ? '#ff4757' : '#58CC02' }}>
-                  {Math.ceil(timeLeft)}s
+              <div className="quiz-info quiz-info-center">
+                <div className="quiz-time">
+                  {Math.ceil(timeLeft)}
                 </div>
               </div>
             )}
