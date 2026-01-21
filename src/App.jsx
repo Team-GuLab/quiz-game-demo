@@ -313,6 +313,25 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [gameState, handleSubmitAnswer])
 
+  const handleJoystickMove = (direction) => {
+    if (gameState !== GAME_STATES.PLAYING) return
+
+    switch (direction) {
+      case 'up':
+        setGridPosition(prev => prev.y > 0 ? { ...prev, y: prev.y - 1 } : prev)
+        break
+      case 'down':
+        setGridPosition(prev => prev.y < GRID_SIZE - 1 ? { ...prev, y: prev.y + 1 } : prev)
+        break
+      case 'left':
+        setGridPosition(prev => prev.x > 0 ? { ...prev, x: prev.x - 1 } : prev)
+        break
+      case 'right':
+        setGridPosition(prev => prev.x < GRID_SIZE - 1 ? { ...prev, x: prev.x + 1 } : prev)
+        break
+    }
+  }
+
   if (gameState === GAME_STATES.READY) {
     return (
       <div className="app">
@@ -433,14 +452,46 @@ function App() {
       </div>
 
       {gameState === GAME_STATES.PLAYING && (
-        <div className="submit-container">
-          <button
-            className="submit-button"
-            onClick={handleSubmitAnswer}
-          >
-            정답 제출 ({currentArea + 1}번) - Enter
-          </button>
-        </div>
+        <>
+          <div className="submit-container">
+            <button
+              className="submit-button"
+              onClick={handleSubmitAnswer}
+            >
+              정답 제출 ({currentArea + 1}번) - Enter
+            </button>
+          </div>
+
+          {/* 가상 조이스틱 */}
+          <div className="virtual-joystick">
+            <button
+              className="joystick-btn joystick-up"
+              onClick={() => handleJoystickMove('up')}
+            >
+              ▲
+            </button>
+            <div className="joystick-middle">
+              <button
+                className="joystick-btn joystick-left"
+                onClick={() => handleJoystickMove('left')}
+              >
+                ◀
+              </button>
+              <button
+                className="joystick-btn joystick-right"
+                onClick={() => handleJoystickMove('right')}
+              >
+                ▶
+              </button>
+            </div>
+            <button
+              className="joystick-btn joystick-down"
+              onClick={() => handleJoystickMove('down')}
+            >
+              ▼
+            </button>
+          </div>
+        </>
       )}
     </div>
   )

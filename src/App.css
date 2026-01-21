@@ -458,3 +458,70 @@ body {
     font-size: 1rem;
   }
 }
+
+/* 가상 조이스틱 */
+.virtual-joystick {
+  position: fixed;
+  bottom: calc(5rem + env(safe-area-inset-bottom));
+  right: calc(1rem + env(safe-area-inset-right));
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
+.virtual-joystick:active {
+  opacity: 0.8;
+}
+
+.joystick-middle {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.joystick-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(5px);
+  transition: all 0.1s ease;
+}
+
+.joystick-btn:active {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0.95);
+}
+
+/* 데스크톱에서는 조이스틱 숨기기 */
+@media (min-width: 769px) {
+  .virtual-joystick {
+    display: none;
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .virtual-joystick {
+    opacity: 0.35;
+  }
+
+  .joystick-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+}
