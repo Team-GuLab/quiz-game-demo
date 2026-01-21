@@ -24,41 +24,25 @@ const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onGridClic
     return ''
   }
 
-  // 클릭 위치를 8x8 그리드 좌표로 변환
+  // 영역 내 랜덤 그리드 좌표 생성
+  const getRandomPosInArea = (areaIndex) => {
+    // 영역별 그리드 범위 설정 (각 영역은 4x4 그리드)
+    const minX = areaIndex === 1 || areaIndex === 3 ? 4 : 0  // 우측 영역: 4-7, 좌측 영역: 0-3
+    const minY = areaIndex === 2 || areaIndex === 3 ? 4 : 0  // 하단 영역: 4-7, 상단 영역: 0-3
+
+    // 영역 내 랜덤 위치 생성
+    const gridX = minX + Math.floor(Math.random() * 4)
+    const gridY = minY + Math.floor(Math.random() * 4)
+
+    return { x: gridX, y: gridY }
+  }
+
+  // 영역 클릭 시 랜덤 위치로 이동
   const handleBoardClick = (e, areaIndex) => {
     if (!onGridClick) return
 
-    const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const clickY = e.clientY - rect.top
-
-    // 영역 내부 상대 좌표 (0-1 범위)
-    const relativeX = clickX / rect.width
-    const relativeY = clickY / rect.height
-
-    // 8x8 그리드로 변환
-    // 각 영역은 4x4 그리드를 차지
-    let gridX, gridY
-
-    if (areaIndex === 0) { // 좌상단
-      gridX = Math.floor(relativeX * 4)
-      gridY = Math.floor(relativeY * 4)
-    } else if (areaIndex === 1) { // 우상단
-      gridX = 4 + Math.floor(relativeX * 4)
-      gridY = Math.floor(relativeY * 4)
-    } else if (areaIndex === 2) { // 좌하단
-      gridX = Math.floor(relativeX * 4)
-      gridY = 4 + Math.floor(relativeY * 4)
-    } else { // 우하단 (areaIndex === 3)
-      gridX = 4 + Math.floor(relativeX * 4)
-      gridY = 4 + Math.floor(relativeY * 4)
-    }
-
-    // 범위 체크
-    gridX = Math.max(0, Math.min(GRID_SIZE - 1, gridX))
-    gridY = Math.max(0, Math.min(GRID_SIZE - 1, gridY))
-
-    onGridClick({ x: gridX, y: gridY })
+    const randomPos = getRandomPosInArea(areaIndex)
+    onGridClick(randomPos)
   }
 
   const areas = [
@@ -68,12 +52,12 @@ const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onGridClic
     { index: 3, label: '4' },
   ]
 
-  // 원래 FloatingLabels 위치
+  // 옵션 레이블 위치 - 각 영역 내부 중앙 근처에 배치
   const optionPositions = [
-    { top: '25%', left: '25%' },   // 영역 1 (좌상단)
-    { top: '25%', left: '75%' },   // 영역 2 (우상단)
-    { top: '75%', left: '25%' },   // 영역 3 (좌하단)
-    { top: '75%', left: '75%' },   // 영역 4 (우하단)
+    { top: '40%', left: '25%' },   // 영역 1 (좌상단)
+    { top: '40%', left: '75%' },   // 영역 2 (우상단)
+    { top: '60%', left: '25%' },   // 영역 3 (좌하단)
+    { top: '60%', left: '75%' },   // 영역 4 (우하단)
   ]
 
   return (

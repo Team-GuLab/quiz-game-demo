@@ -57,7 +57,7 @@ body {
 /* Quiz Overlay Elements */
 .quiz-question-box {
   position: absolute;
-  top: clamp(1rem, 3%, 2rem);
+  top: calc(clamp(1rem, 3%, 2rem) + env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
   background: #3a3a52;
@@ -99,13 +99,13 @@ body {
 }
 
 .quiz-info-left {
-  top: clamp(0.8rem, 1.5%, 1.2rem);
-  left: clamp(0.8rem, 1.5%, 1.5rem);
+  top: calc(clamp(0.8rem, 1.5%, 1.2rem) + env(safe-area-inset-top));
+  left: calc(clamp(0.8rem, 1.5%, 1.5rem) + env(safe-area-inset-left));
 }
 
 .quiz-info-right {
-  top: clamp(0.8rem, 1.5%, 1.2rem);
-  right: clamp(0.8rem, 1.5%, 1.5rem);
+  top: calc(clamp(0.8rem, 1.5%, 1.2rem) + env(safe-area-inset-top));
+  right: calc(clamp(0.8rem, 1.5%, 1.5rem) + env(safe-area-inset-right));
 }
 
 .quiz-info-center {
@@ -347,13 +347,13 @@ body {
 
 .submit-container {
   position: fixed;
-  bottom: 2rem;
+  bottom: calc(2rem + env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   z-index: 200;
   max-width: 500px;
   width: calc(100% - 2rem);
-  padding: 0 1rem;
+  padding: 0 calc(1rem + env(safe-area-inset-left)) 0 calc(1rem + env(safe-area-inset-right));
 }
 
 .submit-button {
@@ -384,10 +384,62 @@ body {
   box-shadow: 0 2px 0 #46A302;
 }
 
+/* Mobile optimizations */
 @media (max-width: 768px) {
+  /* Phase 1: Move time display to top-right corner */
+  .quiz-info-center {
+    top: calc(clamp(0.8rem, 1.5%, 1.2rem) + env(safe-area-inset-top));
+    right: calc(clamp(0.8rem, 1.5%, 1.5rem) + env(safe-area-inset-right));
+    left: auto;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: clamp(0.8rem, 1.5%, 1.2rem) clamp(1rem, 2%, 1.5rem);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+  }
+
+  .quiz-time {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    -webkit-text-stroke: 1px white;
+    text-shadow:
+      0 0 8px rgba(255, 255, 255, 0.6),
+      0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Phase 2: Optimize submit button position and size */
+  .submit-container {
+    bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    width: calc(100% - 1rem);
+    padding: 0 calc(0.5rem + env(safe-area-inset-left)) 0 calc(0.5rem + env(safe-area-inset-right));
+  }
+
   .submit-button {
-    padding: 0.8rem 1.5rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+    min-height: 44px;
+    background: rgba(88, 204, 2, 0.95);
+    backdrop-filter: blur(5px);
+  }
+
+  /* Phase 3: Optimize question box size and transparency */
+  .quiz-question-box {
+    top: calc(0.5rem + env(safe-area-inset-top));
+    padding: 0.8rem 1rem;
+    max-width: 85%;
+    background: rgba(58, 58, 82, 0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .question-progress {
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .question-text {
     font-size: 1rem;
+    line-height: 1.4;
   }
 }
 

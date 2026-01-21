@@ -53,10 +53,12 @@
 .area-option {
   position: absolute;
   transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
   padding: 12px 24px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -66,9 +68,11 @@
 }
 
 .area-option.option-correct {
-  background: #58CC02;
+  background: rgba(88, 204, 2, 0.9);
   color: white;
-  box-shadow: 0 4px 16px rgba(88, 204, 2, 0.4);
+  box-shadow: 0 4px 20px rgba(88, 204, 2, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
 }
 
 .area-option.option-correct .option-number {
@@ -77,13 +81,14 @@
 }
 
 .area-option.option-wrong {
-  background: #E5E5E5;
+  background: rgba(229, 229, 229, 0.7);
   color: #999;
-  opacity: 0.7;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(200, 200, 200, 0.5);
 }
 
 .area-option.option-wrong .option-number {
-  background: #ccc;
+  background: rgba(204, 204, 204, 0.8);
   color: #999;
 }
 
@@ -111,4 +116,31 @@
 .area-option.option-correct .option-text,
 .area-option.option-wrong .option-text {
   color: inherit;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .area-option {
+    padding: 10px 18px;
+    max-width: 42%;
+    background: rgba(255, 255, 255, 0.88);
+  }
+
+  .area-option.option-correct {
+    background: rgba(88, 204, 2, 0.92);
+  }
+
+  .area-option.option-wrong {
+    background: rgba(229, 229, 229, 0.75);
+  }
+
+  .option-number {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+
+  .option-text {
+    font-size: 13px;
+  }
 }
