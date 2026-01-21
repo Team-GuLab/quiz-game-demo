@@ -1,39 +1,102 @@
 .game-board-2d {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90vw, 85vh, 650px);
-  height: min(90vw, 85vh, 650px);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 8px;
+  gap: 0;
   z-index: 1;
 }
 
 .board-area {
-  border-radius: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
+  border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .board-area:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.05);
 }
 
 .board-area.active {
-  box-shadow: 0 0 0 4px #FFB800;
+  box-shadow: inset 0 0 0 4px #FFB800;
 }
 
 .area-number {
-  font-size: 3rem;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 2rem;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.15);
   user-select: none;
+}
+
+.area-option {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 16px 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 80%;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.area-option.option-correct {
+  background: #58CC02;
+  color: white;
+  box-shadow: 0 4px 16px rgba(88, 204, 2, 0.4);
+}
+
+.area-option.option-correct .option-number {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.area-option.option-wrong {
+  background: #E5E5E5;
+  color: #999;
+  opacity: 0.7;
+}
+
+.area-option.option-wrong .option-number {
+  background: #ccc;
+  color: #999;
+}
+
+.option-number {
+  background: #58CC02;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.option-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  line-height: 1.4;
+}
+
+.area-option.option-correct .option-text,
+.area-option.option-wrong .option-text {
+  color: inherit;
 }

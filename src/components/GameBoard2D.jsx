@@ -1,6 +1,6 @@
 import './GameBoard2D.css'
 
-const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClick }) => {
+const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClick, options }) => {
   const getAreaColor = (index) => {
     const colors = ['#A8E6CF', '#FFD3E0', '#FFD3E0', '#A8E6CF']
 
@@ -12,6 +12,14 @@ const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClic
     if (index === currentArea) return '#FFE66D'
 
     return colors[index]
+  }
+
+  const getOptionStyle = (index) => {
+    if (showCorrectAnswer) {
+      if (index === correctAnswer) return 'option-correct'
+      return 'option-wrong'
+    }
+    return ''
   }
 
   const areas = [
@@ -31,6 +39,12 @@ const GameBoard2D = ({ currentArea, showCorrectAnswer, correctAnswer, onAreaClic
           onClick={() => onAreaClick && onAreaClick(area.index)}
         >
           <span className="area-number">{area.label}</span>
+          {options && options[area.index] && (
+            <div className={`area-option ${getOptionStyle(area.index)}`}>
+              <span className="option-number">{area.index + 1}</span>
+              <span className="option-text">{options[area.index]}</span>
+            </div>
+          )}
         </div>
       ))}
     </div>

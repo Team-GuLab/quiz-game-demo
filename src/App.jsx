@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import GameBoard2D from './components/GameBoard2D'
 import GameScene3D from './components/GameScene3D'
-import FloatingLabels from './components/FloatingLabels'
 
 const QUESTIONS = [
   {
@@ -398,6 +397,7 @@ function App() {
           showCorrectAnswer={showCorrectAnswer}
           correctAnswer={currentQuestion.correctAnswer}
           onAreaClick={handleAreaClick}
+          options={currentQuestion.options}
         />
 
         {/* Layer 2: 3D 캐릭터 (z-index: 5) */}
@@ -407,13 +407,6 @@ function App() {
           aiPlayers={aiPlayers}
           playerName={NICKNAMES[0]}
           gameState={gameState}
-          showCorrectAnswer={showCorrectAnswer}
-          correctAnswer={currentQuestion.correctAnswer}
-        />
-
-        {/* Layer 3: 플로팅 라벨 (z-index: 10) */}
-        <FloatingLabels
-          options={currentQuestion.options}
           showCorrectAnswer={showCorrectAnswer}
           correctAnswer={currentQuestion.correctAnswer}
         />
